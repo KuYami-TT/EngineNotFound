@@ -21,7 +21,7 @@ namespace dae
 
 	private:
 		bool m_quit{};
-		const int m_fps{ 16 };
+		double m_Lag{};
 		std::chrono::time_point<std::chrono::steady_clock> m_lastTime{};
 	};
 }

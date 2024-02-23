@@ -14,6 +14,7 @@
 
 #include <thread>
 
+#include "GameTime.h"
 #include "InputManager.h"
 #include "SceneManager.h"
 #include "Renderer.h"
@@ -116,15 +117,20 @@ void dae::Minigin::Run(const std::function<void()>& load)
 
 void dae::Minigin::RunOneFrame()
 {
-	const auto currentTime = high_resolution_clock::now();
-	[[maybe_unused]] const float deltaTime = duration<float>(currentTime - m_lastTime).count();
-	m_lastTime = currentTime;
+	game_time::UpdateDelta();
 
 	m_quit = !InputManager::GetInstance().ProcessInput();
+
+	m_Lag += game_time::Delta();
+	while (m_Lag >= game_time::FixedDelta())
+	{
+		m_Lag -= game_time::FixedDelta();
+		SceneManager::GetInstance().FixedUpdate();
+	}
+
 	SceneManager::GetInstance().Update();
+	SceneManager::GetInstance().LateUpdate();
 	Renderer::GetInstance().Render();
 
-	const auto sleepTime = currentTime + milliseconds(m_fps) - high_resolution_clock::now();
-
-	std::this_thread::sleep_for(sleepTime);
+	std::this_thread::sleep_for(game_time::Sleep());
 }

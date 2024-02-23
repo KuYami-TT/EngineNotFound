@@ -18,7 +18,9 @@ namespace dae
 		GameObject& operator=(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
 
+		virtual void FixedUpdate();
 		virtual void Update();
+		virtual void LateUpdate();
 		virtual void Render() const;
 
 		void SetTexture(const std::string& filename);
