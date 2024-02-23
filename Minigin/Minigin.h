@@ -3,7 +3,7 @@
 #include <functional>
 #include <filesystem>
 
-namespace dae
+namespace enf
 {
 	class Minigin final
 	{

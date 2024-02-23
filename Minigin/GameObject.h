@@ -3,7 +3,7 @@
 #include <memory>
 #include "Transform.h"
 
-namespace dae
+namespace enf
 {
 	class Texture2D;
 	//todo: make gameobject final

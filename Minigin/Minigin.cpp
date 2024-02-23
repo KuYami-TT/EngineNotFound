@@ -40,7 +40,7 @@ void LogSDLVersion(const std::string& message, const SDL_version& v)
 
 void LoopCallback(void* arg)
 {
-	static_cast<dae::Minigin*>(arg)->RunOneFrame();
+	static_cast<enf::Minigin*>(arg)->RunOneFrame();
 }
 #endif
 
@@ -69,7 +69,7 @@ void PrintSDLVersion()
 	LogSDLVersion("We linked against SDL_ttf version ", version);
 }
 
-dae::Minigin::Minigin(const std::filesystem::path &dataPath)
+enf::Minigin::Minigin(const std::filesystem::path &dataPath)
 {
 	PrintSDLVersion();
 	
@@ -95,7 +95,7 @@ dae::Minigin::Minigin(const std::filesystem::path &dataPath)
 	ResourceManager::GetInstance().Init(dataPath);
 }
 
-dae::Minigin::~Minigin()
+enf::Minigin::~Minigin()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -103,7 +103,7 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void enf::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 #ifndef __EMSCRIPTEN__
@@ -115,7 +115,7 @@ void dae::Minigin::Run(const std::function<void()>& load)
 #endif
 }
 
-void dae::Minigin::RunOneFrame()
+void enf::Minigin::RunOneFrame()
 {
 	game_time::UpdateDelta();
 
