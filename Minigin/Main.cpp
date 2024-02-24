@@ -8,8 +8,8 @@
 #endif
 
 #include "Minigin.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
+#include "Managers/SceneManager.h"
+#include "Managers/ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
 

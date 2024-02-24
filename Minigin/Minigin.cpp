@@ -14,11 +14,11 @@
 
 #include <thread>
 
-#include "GameTime.h"
-#include "InputManager.h"
-#include "SceneManager.h"
+#include "Managers/GameTime.h"
+#include "Managers/InputManager.h"
+#include "Managers/SceneManager.h"
 #include "Renderer.h"
-#include "ResourceManager.h"
+#include "Managers/ResourceManager.h"
 
 using namespace std::chrono;
 

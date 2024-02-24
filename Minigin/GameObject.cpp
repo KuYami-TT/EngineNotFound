@@ -1,6 +1,6 @@
 #include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
+#include "Managers/ResourceManager.h"
 #include "Renderer.h"
 
 enf::GameObject::~GameObject() = default;
