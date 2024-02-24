@@ -26,6 +26,14 @@ void Scene::RemoveAll()
 	m_objects.clear();
 }
 
+void Scene::Awake()
+{
+	for (auto& object : m_objects)
+	{
+		object->Awake();
+	}
+}
+
 void Scene::FixedUpdate()
 {
 	for (auto& object : m_objects)

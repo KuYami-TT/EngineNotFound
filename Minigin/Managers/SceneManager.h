@@ -12,6 +12,7 @@ namespace enf
 	public:
 		Scene& CreateScene(const std::string& name);
 
+		void Awake();
 		void FixedUpdate();
 		void Update();
 		void LateUpdate();

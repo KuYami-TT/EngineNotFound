@@ -1,6 +1,14 @@
 #include "SceneManager.h"
 #include "Scene.h"
 
+void enf::SceneManager::Awake()
+{
+	for (auto& scene : m_scenes)
+	{
+		scene->Awake();
+	}
+}
+
 void enf::SceneManager::FixedUpdate()
 {
 	for (auto& scene : m_scenes)

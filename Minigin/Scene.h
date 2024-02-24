@@ -17,6 +17,7 @@ namespace enf
 		void Remove(std::shared_ptr<GameObject> object);
 		void RemoveAll();
 
+		void Awake();
 		void FixedUpdate();
 		void Update();
 		void LateUpdate();

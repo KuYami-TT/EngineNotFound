@@ -5,6 +5,8 @@
 
 enf::GameObject::~GameObject() = default;
 
+void enf::GameObject::Awake(){}
+
 void enf::GameObject::FixedUpdate(){}
 
 void enf::GameObject::Update(){}
