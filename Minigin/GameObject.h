@@ -27,7 +27,7 @@ namespace enf
 		void SetPosition(float x, float y);
 
 	private:
-		// todo: each gameobject doenst need a texture
+		//todo: each gameobject doenst need a texture
 		Transform m_transform{};
 		std::shared_ptr<Texture2D> m_texture{};
 	};
