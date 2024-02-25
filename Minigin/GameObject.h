@@ -3,9 +3,8 @@
 #include <memory>
 #include <vector>
 
-#include "Transform.h"
 #include "Component.h"
-
+#include "glm/vec3.hpp"
 
 namespace enf
 {
@@ -20,8 +19,8 @@ namespace enf
 	class GameObject
 	{
 	public:
-		GameObject() = default;
-		virtual ~GameObject();
+		GameObject(const glm::vec3& pos = glm::vec3{0, 0, 0});
+		virtual ~GameObject() = default;
 
 		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
@@ -41,12 +40,13 @@ namespace enf
 		
 			auto& newComp = m_Components.emplace_back(std::make_unique<ComponentType>(args...));
 			newComp->SetParent(this);
+			newComp->Awake();
 
 			return reinterpret_cast<ComponentType*>(newComp.get());
 		}
 		
 		template<IComponent ComponentType>
-		std::unique_ptr<ComponentType> GetComponent()
+		ComponentType* GetComponent()
 		{
 			auto it = std::ranges::find_if(m_Components, [](const std::unique_ptr<Component>& type)->bool
 				{
@@ -56,7 +56,7 @@ namespace enf
 
 			if (it != m_Components.end())
 			{
-				return std::unique_ptr<ComponentType>(dynamic_cast<ComponentType*>(it->release()));
+				return dynamic_cast<ComponentType*>(it->get());
 			}
 
 			return nullptr;
@@ -72,13 +72,11 @@ namespace enf
 		void CheckMarked();
 
 		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
 
 	private:
 		std::vector<std::unique_ptr<Component>> m_Components{};
 
 		//todo: each gameobject doenst need a texture
-		TransformZ m_transform{};
 		std::shared_ptr<Texture2D> m_texture{};
 	};
 }

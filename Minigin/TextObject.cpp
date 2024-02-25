@@ -32,11 +32,6 @@ void enf::TextObject::Update()
 
 void enf::TextObject::Render() const
 {
-	if (m_textTexture != nullptr)
-	{
-		const auto& pos = m_transform.GetPosition();
-		Renderer::GetInstance().RenderTexture(*m_textTexture, pos.x, pos.y);
-	}
 }
 
 // This implementation uses the "dirty flag" pattern
@@ -45,10 +40,3 @@ void enf::TextObject::SetText(const std::string& text)
 	m_text = text;
 	m_needsUpdate = true;
 }
-
-void enf::TextObject::SetPosition(const float x, const float y)
-{
-	m_transform.SetPosition(x, y, 0.0f);
-}
-
-

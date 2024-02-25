@@ -7,29 +7,29 @@
 #endif
 #endif
 
+#include <filesystem>
+
 #include "Minigin.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
-#include "Components/Transform.h"
+#include "Components/TransformComp.h"
+#include "Components/SpriteRenderComp.h"
 
-#include <filesystem>
 namespace fs = std::filesystem;
 
 void load()
 {
 	auto& scene = enf::SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<enf::GameObject>();
-	go->SetTexture("background.tga");
-	go->AddComponent<enf::Transform>();
-	scene.Add(go);
+	auto object = std::make_shared<enf::GameObject>();
+	object->AddComponent<enf::SpriteRenderComp>("background.tga");
+	scene.Add(object);
 
-	//go = std::make_shared<enf::GameObject>();
-	//go->SetTexture("logo.tga");
-	//go->SetPosition(216, 180);
-	//scene.Add(go);
+	object = std::make_shared<enf::GameObject>(glm::vec3{216, 180, 0});
+	object->AddComponent<enf::SpriteRenderComp>("logo.tga");
+	scene.Add(object);
 
 	//auto font = enf::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
 	//auto to = std::make_shared<enf::TextObject>("Programming 4 Assignment", font);
