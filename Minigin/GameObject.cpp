@@ -19,6 +19,14 @@ void enf::GameObject::Render() const
 	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
 }
 
+void enf::GameObject::CheckMarked()
+{
+	std::erase_if(m_Components, [](const std::unique_ptr<Component>& comp)
+		{
+			return comp->IsMarked();
+		});
+}
+
 void enf::GameObject::SetTexture(const std::string& filename)
 {
 	m_texture = ResourceManager::GetInstance().LoadTexture(filename);

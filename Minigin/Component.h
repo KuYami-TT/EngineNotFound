@@ -1,5 +1,4 @@
 #pragma once
-#include <memory>
 
 namespace enf
 {
@@ -22,8 +21,16 @@ namespace enf
 		virtual inline void LateUpdate(){}
 		virtual inline void Render(){}
 
+		//Mark for deletion
+		void MarkForMurder();
+		void LetLive();
+		[[nodiscard]] bool IsMarked() const;
+
 	protected:
 		GameObject* m_pParent{};
 		Component() = default;
+
+	private:
+		bool m_Delete{};
 	};
 }

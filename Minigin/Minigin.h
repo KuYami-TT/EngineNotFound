@@ -22,6 +22,5 @@ namespace enf
 	private:
 		bool m_quit{};
 		double m_Lag{};
-		std::chrono::time_point<std::chrono::steady_clock> m_lastTime{};
 	};
 }

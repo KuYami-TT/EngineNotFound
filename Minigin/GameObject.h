@@ -68,6 +68,9 @@ namespace enf
 			return GetComponent<ComponentType>() != nullptr;
 		}
 
+		//Delete components that are marked for deletion 
+		void CheckMarked();
+
 		void SetTexture(const std::string& filename);
 		void SetPosition(float x, float y);
 
