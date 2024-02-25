@@ -23,7 +23,7 @@ namespace enf
 		virtual inline void Render(){}
 
 	protected:
-		std::shared_ptr<GameObject> m_pParent{};
+		GameObject* m_pParent{};
 		Component() = default;
 	};
 }
