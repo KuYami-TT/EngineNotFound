@@ -28,7 +28,7 @@ namespace enf
 	private:
 		bool m_needsUpdate;
 		std::string m_text;
-		Transform m_transform{};
+		TransformZ m_transform{};
 		std::shared_ptr<Font> m_font;
 		std::shared_ptr<Texture2D> m_textTexture;
 	};

@@ -1,6 +1,6 @@
 #include "Transform.h"
 
-void enf::Transform::SetPosition(const float x, const float y, const float z)
+void enf::TransformZ::SetPosition(const float x, const float y, const float z)
 {
 	m_position.x = x;
 	m_position.y = y;

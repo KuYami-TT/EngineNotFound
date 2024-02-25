@@ -42,6 +42,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Managers/ResourceManager.h
   Minigin/Managers/InputManager.cpp
   Minigin/Managers/InputManager.h
+  Minigin/Components/Transform.cpp
+  Minigin/Components/Transform.h
 )
 
 # enable c++20 features

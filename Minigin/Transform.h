@@ -3,7 +3,7 @@
 
 namespace enf
 {
-	class Transform final
+	class TransformZ final
 	{
 	public:
 		const glm::vec3& GetPosition() const { return m_position; }

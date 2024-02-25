@@ -12,6 +12,7 @@
 #include "Managers/ResourceManager.h"
 #include "TextObject.h"
 #include "Scene.h"
+#include "Components/Transform.h"
 
 #include <filesystem>
 namespace fs = std::filesystem;
@@ -22,17 +23,18 @@ void load()
 
 	auto go = std::make_shared<enf::GameObject>();
 	go->SetTexture("background.tga");
+	go->AddComponent<enf::Transform>();
 	scene.Add(go);
 
-	go = std::make_shared<enf::GameObject>();
-	go->SetTexture("logo.tga");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	//go = std::make_shared<enf::GameObject>();
+	//go->SetTexture("logo.tga");
+	//go->SetPosition(216, 180);
+	//scene.Add(go);
 
-	auto font = enf::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<enf::TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	//auto font = enf::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	//auto to = std::make_shared<enf::TextObject>("Programming 4 Assignment", font);
+	//to->SetPosition(80, 20);
+	//scene.Add(to);
 }
 
 int main(int, char*[]) {
