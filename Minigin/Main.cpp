@@ -16,25 +16,27 @@
 #include "Scene.h"
 #include "Components/TransformComp.h"
 #include "Components/SpriteRenderComp.h"
+#include "Components/TextRenderComp.h"
 
 namespace fs = std::filesystem;
+using namespace enf;
 
 void load()
 {
-	auto& scene = enf::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto object = std::make_shared<enf::GameObject>();
-	object->AddComponent<enf::SpriteRenderComp>("background.tga");
+	auto object = std::make_shared<GameObject>();
+	object->AddComponent<SpriteRenderComp>("background.tga");
 	scene.Add(object);
 
-	object = std::make_shared<enf::GameObject>(glm::vec3{216, 180, 0});
-	object->AddComponent<enf::SpriteRenderComp>("logo.tga");
+	object = std::make_shared<GameObject>(glm::vec3{216, 180, 0});
+	object->AddComponent<SpriteRenderComp>("logo.tga");
 	scene.Add(object);
 
-	//auto font = enf::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	//auto to = std::make_shared<enf::TextObject>("Programming 4 Assignment", font);
-	//to->SetPosition(80, 20);
-	//scene.Add(to);
+	object = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
+	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	object->AddComponent<TextRenderComp>("Programming 4 Assignment", font);
+	scene.Add(object);
 }
 
 int main(int, char*[]) {
