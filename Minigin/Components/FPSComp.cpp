@@ -46,7 +46,7 @@ void enf::FPSComp::Update()
 
 double enf::FPSComp::GetAverageFps()
 {
-	if (m_TotalFPS.empty())
+	if (m_TotalFPS.size() < 2)
 		return game_time::FPS();
 
 	std::ranges::sort(m_TotalFPS);
