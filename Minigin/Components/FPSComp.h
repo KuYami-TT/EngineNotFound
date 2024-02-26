@@ -1,16 +1,25 @@
 #pragma once
-#include "Component.h"
+#include <memory>
+
+#include "../Component.h"
 
 namespace enf
 {
-	class FPSComp final : Component 
+	class TextRenderComp;
+	class Font;
+
+	class FPSComp final : public Component
 	{
-		FPSComp() = default;
+	public:
+		FPSComp(const std::shared_ptr<Font>& pFont);
 		~FPSComp() override = default;
 
-		FPSComp(FPSComp&& other);
+		FPSComp(FPSComp&& other) = delete;
 		FPSComp(const FPSComp& other) = delete;
 		FPSComp& operator=(FPSComp&& other) = delete;
 		FPSComp& operator=(const FPSComp& other) = delete;
+
+	private:
+		TextRenderComp* m_pTextRenderComp{};
 	};
 }

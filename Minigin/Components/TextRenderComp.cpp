@@ -10,7 +10,7 @@
 #include "TransformComp.h"
 #include "glm/vec3.hpp"
 
-enf::TextRenderComp::TextRenderComp(std::string text, std::shared_ptr<Font> pFont) :
+enf::TextRenderComp::TextRenderComp(std::shared_ptr<Font> pFont, std::string text) :
 	RenderComp(),
 	m_Text{std::move(text)},
 	m_Font{std::move(pFont)},
@@ -22,20 +22,29 @@ void enf::TextRenderComp::Update()
 {
 	if(m_Dirty)
 	{
-		SetText();
+		SetText(m_Text);
 	}
 }
 
 void enf::TextRenderComp::Render()
 {
+	if(!m_TextTexture)
+		return;
+
 	const glm::vec3& pos = m_pTransform->GetPosition();
 	Renderer::GetInstance().RenderTexture(*m_TextTexture, pos.x, pos.y);
 }
 
-void enf::TextRenderComp::SetText()
+void enf::TextRenderComp::SetText(const std::string& text)
 {
+	if (text.empty())
+	{
+		m_Dirty = false;
+		return;
+	}
+
 	constexpr SDL_Color color = { 255,255,255,255 }; // only white text is supported now
-	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), m_Text.c_str(), color);
+	const auto surf = TTF_RenderText_Blended(m_Font->GetFont(), text.c_str(), color);
 	if (surf == nullptr)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());

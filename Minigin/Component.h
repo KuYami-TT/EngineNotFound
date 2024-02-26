@@ -14,6 +14,7 @@ namespace enf
 		Component& operator=(const Component& other) = delete;
 
 		void SetParent(GameObject* pParent);
+		[[nodiscard]]GameObject* GetParent() const;
 
 		virtual inline void Awake(){}
 		virtual inline void FixedUpdate(){}

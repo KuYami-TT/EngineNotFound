@@ -13,6 +13,7 @@
 #include "Minigin.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "Components/FPSComp.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
 #include "Components/SpriteRenderComp.h"
@@ -34,8 +35,13 @@ void load()
 	scene.Add(object);
 
 	object = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
-	const auto font = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	object->AddComponent<TextRenderComp>("Programming 4 Assignment", font);
+	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
+	scene.Add(object);
+
+	object = std::make_shared<GameObject>(glm::vec3{ 0, 20, 0 });
+	const auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	object->AddComponent<FPSComp>(fpsFont);
 	scene.Add(object);
 }
 

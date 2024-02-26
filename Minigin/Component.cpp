@@ -7,6 +7,11 @@ void enf::Component::SetParent(GameObject* pParent)
 	m_pParent = pParent;
 }
 
+enf::GameObject* enf::Component::GetParent() const
+{
+	return m_pParent;
+}
+
 void enf::Component::MarkForMurder()
 {
 	m_Delete = true;
