@@ -1,32 +1,76 @@
 #pragma once
-#include <string>
 #include <memory>
-#include "Transform.h"
+#include <vector>
 
-namespace dae
+#include "Component.h"
+#include "glm/vec3.hpp"
+
+namespace enf
 {
+	template<typename ComponentType>
+	concept IComponent = requires(ComponentType c)
+	{
+		{ std::derived_from<ComponentType, Component> };
+	};
+
 	class Texture2D;
-	//todo: make gameobject final
-	class GameObject
+	class GameObject final
 	{
 	public:
-		GameObject() = default;
-		virtual ~GameObject();
+		GameObject(const glm::vec3& pos = glm::vec3{0, 0, 0});
+		~GameObject() = default;
 
-		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
+		GameObject(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
 
-		virtual void Update();
-		virtual void Render() const;
+		void Awake();
+		void FixedUpdate();
+		void Update();
+		void LateUpdate();
+		void Render() const;
 
-		void SetTexture(const std::string& filename);
-		void SetPosition(float x, float y);
+        template<IComponent ComponentType, typename... TArgs>
+        ComponentType* AddComponent(const TArgs&... args)
+		{
+			if (HasComponent<ComponentType>())
+				return nullptr;
+		
+			auto& newCompPtr = m_ComponentsPtr.emplace_back(std::make_unique<ComponentType>(args...));
+			newCompPtr->SetParent(this);
+			newCompPtr->Awake();
+
+			return reinterpret_cast<ComponentType*>(newCompPtr.get());
+		}
+		
+		template<IComponent ComponentType>
+		ComponentType* GetComponent()
+		{
+			auto it = std::ranges::find_if(m_ComponentsPtr, [](const std::unique_ptr<Component>& type)->bool
+				{
+					auto pCastedPtr = dynamic_cast<ComponentType*>(type.get());
+					return pCastedPtr != nullptr;
+				});
+
+			if (it != m_ComponentsPtr.end())
+			{
+				return dynamic_cast<ComponentType*>(it->get());
+			}
+
+			return nullptr;
+		}
+		
+		template<IComponent ComponentType>
+		bool HasComponent()
+		{
+			return GetComponent<ComponentType>() != nullptr;
+		}
+
+		//Delete components that are marked for deletion 
+		void CheckMarked();
 
 	private:
-		// todo: each gameobject doenst need a texture
-		Transform m_transform{};
-		std::shared_ptr<Texture2D> m_texture{};
+		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 	};
 }

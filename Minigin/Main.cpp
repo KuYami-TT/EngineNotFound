@@ -7,32 +7,42 @@
 #endif
 #endif
 
-#include "Minigin.h"
-#include "SceneManager.h"
-#include "ResourceManager.h"
-#include "TextObject.h"
-#include "Scene.h"
-
 #include <filesystem>
+
+#include "glm/vec3.hpp"
+#include "Minigin.h"
+#include "Scene.h"
+#include "GameObject.h"
+#include "Components/FPSComp.h"
+#include "Managers/SceneManager.h"
+#include "Managers/ResourceManager.h"
+#include "Components/SpriteRenderComp.h"
+#include "Components/TextRenderComp.h"
+
 namespace fs = std::filesystem;
+using namespace enf;
 
 void load()
 {
-	auto& scene = dae::SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto go = std::make_shared<dae::GameObject>();
-	go->SetTexture("background.tga");
-	scene.Add(go);
+	auto object = std::make_shared<GameObject>();
+	object->AddComponent<SpriteRenderComp>("background.tga");
+	scene.Add(object);
 
-	go = std::make_shared<dae::GameObject>();
-	go->SetTexture("logo.tga");
-	go->SetPosition(216, 180);
-	scene.Add(go);
+	object = std::make_shared<GameObject>(glm::vec3{216, 180, 0});
+	object->AddComponent<SpriteRenderComp>("logo.tga");
+	scene.Add(object);
 
-	auto font = dae::ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
-	auto to = std::make_shared<dae::TextObject>("Programming 4 Assignment", font);
-	to->SetPosition(80, 20);
-	scene.Add(to);
+	object = std::make_shared<GameObject>(glm::vec3{ 150, 20, 0 });
+	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
+	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
+	scene.Add(object);
+
+	object = std::make_shared<GameObject>(glm::vec3{ 5, 20, 0 });
+	const auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	object->AddComponent<FPSComp>(fpsFont);
+	scene.Add(object);
 }
 
 int main(int, char*[]) {
@@ -44,7 +54,7 @@ int main(int, char*[]) {
 		data_location = "../Data/";
 #endif
 
-	dae::Minigin engine(data_location);
+	enf::Minigin engine(data_location);
 	engine.Run(load);
     return 0;
 }

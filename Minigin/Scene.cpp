@@ -3,40 +3,63 @@
 
 #include <algorithm>
 
-using namespace dae;
+using namespace enf;
 
-unsigned int Scene::m_idCounter = 0;
+unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(const std::string& name) : m_name(name) {}
+Scene::Scene(std::string name) : m_Name(std::move(name))
+{}
 
-Scene::~Scene() = default;
-
-void Scene::Add(std::shared_ptr<GameObject> object)
+void Scene::Add(std::shared_ptr<GameObject> objectPtr)
 {
-	m_objects.emplace_back(std::move(object));
+	m_ObjectsPtr.emplace_back(std::move(objectPtr));
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> object)
+void Scene::Remove(const std::shared_ptr<GameObject>& objectPtr)
 {
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+	m_ObjectsPtr.erase(std::ranges::remove(m_ObjectsPtr, objectPtr).begin(), m_ObjectsPtr.end());
 }
 
 void Scene::RemoveAll()
 {
-	m_objects.clear();
+	m_ObjectsPtr.clear();
+}
+
+void Scene::Awake()
+{
+	for (const auto& object : m_ObjectsPtr)
+	{
+		object->Awake();
+	}
+}
+
+void Scene::FixedUpdate()
+{
+	for (const auto& object : m_ObjectsPtr)
+	{
+		object->FixedUpdate();
+	}
 }
 
 void Scene::Update()
 {
-	for(auto& object : m_objects)
+	for(const auto& object : m_ObjectsPtr)
 	{
 		object->Update();
 	}
 }
 
+void Scene::LateUpdate()
+{
+	for (const auto& object : m_ObjectsPtr)
+	{
+		object->LateUpdate();
+	}
+}
+
 void Scene::Render() const
 {
-	for (const auto& object : m_objects)
+	for (const auto& object : m_ObjectsPtr)
 	{
 		object->Render();
 	}

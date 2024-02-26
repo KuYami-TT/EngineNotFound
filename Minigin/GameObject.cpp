@@ -1,24 +1,57 @@
-#include <string>
 #include "GameObject.h"
-#include "ResourceManager.h"
-#include "Renderer.h"
+#include "Managers/ResourceManager.h"
+#include "Components/TransformComp.h"
 
-dae::GameObject::~GameObject() = default;
-
-void dae::GameObject::Update(){}
-
-void dae::GameObject::Render() const
+enf::GameObject::GameObject(const glm::vec3& pos)
 {
-	const auto& pos = m_transform.GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
+	AddComponent<TransformComp>()->SetPosition(pos);
 }
 
-void dae::GameObject::SetTexture(const std::string& filename)
+void enf::GameObject::Awake()
 {
-	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
+	for (auto&& comp : m_ComponentsPtr)
+	{
+		comp->Awake();
+	}
 }
 
-void dae::GameObject::SetPosition(float x, float y)
+void enf::GameObject::FixedUpdate()
 {
-	m_transform.SetPosition(x, y, 0.0f);
+	for (auto&& comp : m_ComponentsPtr)
+	{
+		comp->FixedUpdate();
+	}
+}
+
+void enf::GameObject::Update()
+{
+	for (auto&& comp : m_ComponentsPtr)
+	{
+		comp->Update();
+	}
+}
+
+void enf::GameObject::LateUpdate()
+{
+	for (auto&& comp : m_ComponentsPtr)
+	{
+		comp->LateUpdate();
+	}
+}
+
+void enf::GameObject::Render() const
+{
+	for (auto&& comp : m_ComponentsPtr)
+	{
+		comp->Render();
+	}
+}
+
+void enf::GameObject::CheckMarked()
+{
+	std::erase_if(m_ComponentsPtr, 
+		[](const std::unique_ptr<Component>& comp)->bool
+		{
+			return comp->IsMarked();
+		});
 }

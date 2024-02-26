@@ -14,10 +14,11 @@
 
 #include <thread>
 
-#include "InputManager.h"
-#include "SceneManager.h"
+#include "Managers/GameTime.h"
+#include "Managers/InputManager.h"
+#include "Managers/SceneManager.h"
 #include "Renderer.h"
-#include "ResourceManager.h"
+#include "Managers/ResourceManager.h"
 
 using namespace std::chrono;
 
@@ -39,7 +40,7 @@ void LogSDLVersion(const std::string& message, const SDL_version& v)
 
 void LoopCallback(void* arg)
 {
-	static_cast<dae::Minigin*>(arg)->RunOneFrame();
+	static_cast<enf::Minigin*>(arg)->RunOneFrame();
 }
 #endif
 
@@ -68,7 +69,7 @@ void PrintSDLVersion()
 	LogSDLVersion("We linked against SDL_ttf version ", version);
 }
 
-dae::Minigin::Minigin(const std::filesystem::path &dataPath)
+enf::Minigin::Minigin(const std::filesystem::path &dataPath)
 {
 	PrintSDLVersion();
 	
@@ -94,7 +95,7 @@ dae::Minigin::Minigin(const std::filesystem::path &dataPath)
 	ResourceManager::GetInstance().Init(dataPath);
 }
 
-dae::Minigin::~Minigin()
+enf::Minigin::~Minigin()
 {
 	Renderer::GetInstance().Destroy();
 	SDL_DestroyWindow(g_window);
@@ -102,29 +103,33 @@ dae::Minigin::~Minigin()
 	SDL_Quit();
 }
 
-void dae::Minigin::Run(const std::function<void()>& load)
+void enf::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 #ifndef __EMSCRIPTEN__
-	m_lastTime = high_resolution_clock::now();
-	while (!m_quit)
+	while (!m_Quit)
 		RunOneFrame();
 #else
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
 #endif
 }
 
-void dae::Minigin::RunOneFrame()
+void enf::Minigin::RunOneFrame()
 {
-	const auto currentTime = high_resolution_clock::now();
-	[[maybe_unused]] const float deltaTime = duration<float>(currentTime - m_lastTime).count();
-	m_lastTime = currentTime;
+	game_time::UpdateDelta();
 
-	m_quit = !InputManager::GetInstance().ProcessInput();
+	m_Quit = !InputManager::GetInstance().ProcessInput();
+
+	m_Lag += game_time::Delta();
+	while (m_Lag >= game_time::FixedDelta())
+	{
+		m_Lag -= game_time::FixedDelta();
+		SceneManager::GetInstance().FixedUpdate();
+	}
+
 	SceneManager::GetInstance().Update();
+	SceneManager::GetInstance().LateUpdate();
 	Renderer::GetInstance().Render();
 
-	const auto sleepTime = currentTime + milliseconds(m_fps) - high_resolution_clock::now();
-
-	std::this_thread::sleep_for(sleepTime);
+	std::this_thread::sleep_for(game_time::Sleep());
 }

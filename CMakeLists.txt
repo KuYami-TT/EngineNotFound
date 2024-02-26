@@ -19,25 +19,35 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Font.h
   Minigin/GameObject.cpp
   Minigin/GameObject.h
-  Minigin/InputManager.cpp
-  Minigin/InputManager.h
   Minigin/Main.cpp
   Minigin/Minigin.cpp
   Minigin/Minigin.h
   Minigin/Renderer.cpp
   Minigin/Renderer.h
-  Minigin/ResourceManager.cpp
-  Minigin/ResourceManager.h
   Minigin/Scene.cpp
   Minigin/Scene.h
-  Minigin/SceneManager.cpp
-  Minigin/SceneManager.h
-  Minigin/TextObject.cpp
-  Minigin/TextObject.h
   Minigin/Texture2D.cpp
   Minigin/Texture2D.h
-  Minigin/Transform.cpp
-  Minigin/Transform.h
+  Minigin/Component.h
+  Minigin/Component.cpp
+  Minigin/Managers/GameTime.cpp
+  Minigin/Managers/GameTime.h
+  Minigin/Managers/SceneManager.cpp
+  Minigin/Managers/SceneManager.h
+  Minigin/Managers/ResourceManager.cpp
+  Minigin/Managers/ResourceManager.h
+  Minigin/Managers/InputManager.cpp
+  Minigin/Managers/InputManager.h
+  Minigin/Components/TransformComp.cpp
+  Minigin/Components/TransformComp.h
+  Minigin/Components/RenderComp.cpp
+  Minigin/Components/RenderComp.h
+  Minigin/Components/SpriteRenderComp.cpp
+  Minigin/Components/SpriteRenderComp.h
+  Minigin/Components/TextRenderComp.cpp
+  Minigin/Components/TextRenderComp.h 
+  Minigin/Components/FPSComp.cpp
+  Minigin/Components/FPSComp.h 
 )
 
 # enable c++20 features
