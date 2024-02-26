@@ -34,12 +34,12 @@ void load()
 	object->AddComponent<SpriteRenderComp>("logo.tga");
 	scene.Add(object);
 
-	object = std::make_shared<GameObject>(glm::vec3{ 80, 20, 0 });
-	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 36);
+	object = std::make_shared<GameObject>(glm::vec3{ 150, 20, 0 });
+	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
 	scene.Add(object);
 
-	object = std::make_shared<GameObject>(glm::vec3{ 0, 20, 0 });
+	object = std::make_shared<GameObject>(glm::vec3{ 5, 20, 0 });
 	const auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
 	scene.Add(object);

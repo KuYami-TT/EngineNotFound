@@ -3,7 +3,7 @@
 
 using namespace std::chrono;
 
-constexpr int g_FpsCap{ 16 };
+constexpr int g_FramesPerSec{ 16 };
 double g_FixedTime{ .02 };
 double g_DeltaTime{};
 double g_TimeScale{ 1. };
@@ -32,9 +32,14 @@ double enf::game_time::FixedDelta()
     return g_FixedTime;
 }
 
+double enf::game_time::FPS()
+{
+    return 1 / g_DeltaTime;
+}
+
 duration<double, std::milli> enf::game_time::Sleep()
 {
-    return g_CurrentTime + milliseconds(g_FpsCap) - high_resolution_clock::now();
+    return g_CurrentTime + milliseconds(g_FramesPerSec) - high_resolution_clock::now();
 }
 
 void enf::game_time::SetScale(double timeScale)

@@ -10,6 +10,7 @@ namespace enf
         [[nodiscard]] double Delta();
         [[nodiscard]] double UnscaledDelta();
         [[nodiscard]] double FixedDelta();
+        [[nodiscard]] double FPS();
         [[nodiscard]] std::chrono::duration<double, std::milli> Sleep();
 
         void SetScale(double timeScale = 1.);

@@ -107,7 +107,6 @@ void enf::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 #ifndef __EMSCRIPTEN__
-	SceneManager::GetInstance().Awake();
 	while (!m_quit)
 		RunOneFrame();
 #else
