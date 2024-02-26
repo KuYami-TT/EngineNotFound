@@ -7,11 +7,12 @@ namespace enf
 	class Scene final
 	{
 	public:
-		~Scene();
-		Scene(const Scene& other) = delete;
+		~Scene() = default;
+
 		Scene(Scene&& other) = delete;
-		Scene& operator=(const Scene& other) = delete;
+		Scene(const Scene& other) = delete;
 		Scene& operator=(Scene&& other) = delete;
+		Scene& operator=(const Scene& other) = delete;
 
 		void Add(std::shared_ptr<GameObject> object);
 		void Remove(std::shared_ptr<GameObject> object);
@@ -24,7 +25,7 @@ namespace enf
 		void Render() const;
 
 	private:
-		explicit Scene(const std::string& name);
+		explicit Scene(std::string name);
 
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 

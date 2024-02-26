@@ -22,10 +22,10 @@ namespace enf
 		GameObject(const glm::vec3& pos = glm::vec3{0, 0, 0});
 		virtual ~GameObject() = default;
 
-		GameObject(const GameObject& other) = delete;
 		GameObject(GameObject&& other) = delete;
-		GameObject& operator=(const GameObject& other) = delete;
+		GameObject(const GameObject& other) = delete;
 		GameObject& operator=(GameObject&& other) = delete;
+		GameObject& operator=(const GameObject& other) = delete;
 
 		void Awake();
 		virtual void FixedUpdate();
@@ -36,7 +36,8 @@ namespace enf
         template<IComponent ComponentType, typename... TArgs>
         ComponentType* AddComponent(const TArgs&... args)
 		{
-			assert(!HasComponent<ComponentType>());
+			if (HasComponent<ComponentType>())
+				return nullptr;
 		
 			auto& newComp = m_Components.emplace_back(std::make_unique<ComponentType>(args...));
 			newComp->SetParent(this);

@@ -11,10 +11,10 @@ namespace enf
 		explicit Minigin(const std::filesystem::path& dataPath);
 		~Minigin();
 
-		Minigin(const Minigin& other) = delete;
 		Minigin(Minigin&& other) = delete;
-		Minigin& operator=(const Minigin& other) = delete;
+		Minigin(const Minigin& other) = delete;
 		Minigin& operator=(Minigin&& other) = delete;
+		Minigin& operator=(const Minigin& other) = delete;
 
 		void Run(const std::function<void()>& load);
 		void RunOneFrame();

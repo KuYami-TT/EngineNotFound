@@ -13,10 +13,10 @@ namespace enf
 		explicit Font(const std::string& fullPath, unsigned int size);
 		~Font();
 
-		Font(const Font &) = delete;
 		Font(Font &&) = delete;
-		Font & operator= (const Font &) = delete;
-		Font & operator= (const Font &&) = delete;
+		Font(const Font&) = delete;
+		Font& operator=(Font&&) = delete;
+		Font& operator=(const Font&) = delete;
 
 		_TTF_Font* GetFont() const;
 

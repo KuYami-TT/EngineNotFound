@@ -7,9 +7,8 @@ using namespace enf;
 
 unsigned int Scene::m_idCounter = 0;
 
-Scene::Scene(const std::string& name) : m_name(name) {}
-
-Scene::~Scene() = default;
+Scene::Scene(std::string name) : m_name(std::move(name))
+{}
 
 void Scene::Add(std::shared_ptr<GameObject> object)
 {

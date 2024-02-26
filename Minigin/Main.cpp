@@ -9,12 +9,12 @@
 
 #include <filesystem>
 
+#include "glm/vec3.hpp"
 #include "Minigin.h"
+#include "Scene.h"
+#include "GameObject.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
-#include "TextObject.h"
-#include "Scene.h"
-#include "Components/TransformComp.h"
 #include "Components/SpriteRenderComp.h"
 #include "Components/TextRenderComp.h"
 

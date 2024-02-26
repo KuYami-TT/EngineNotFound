@@ -13,9 +13,9 @@
 enf::TextRenderComp::TextRenderComp(std::string text, std::shared_ptr<Font> pFont) :
 	RenderComp(),
 	m_Text{std::move(text)},
-	m_Font{std::move(pFont)}
+	m_Font{std::move(pFont)},
+	m_Dirty{true}
 {
-	m_Dirty = true;
 }
 
 void enf::TextRenderComp::Update()
