@@ -1,9 +1,14 @@
 #include <SDL.h>
 #include "Texture2D.h"
 
+enf::Texture2D::Texture2D(SDL_Texture* texturePtr)
+{
+	m_TexturePtr = texturePtr;
+}
+
 enf::Texture2D::~Texture2D()
 {
-	SDL_DestroyTexture(m_texture);
+	SDL_DestroyTexture(m_TexturePtr);
 }
 
 glm::ivec2 enf::Texture2D::GetSize() const
@@ -15,10 +20,5 @@ glm::ivec2 enf::Texture2D::GetSize() const
 
 SDL_Texture* enf::Texture2D::GetSDLTexture() const
 {
-	return m_texture;
-}
-
-enf::Texture2D::Texture2D(SDL_Texture* texture)
-{
-	m_texture = texture;
+	return m_TexturePtr;
 }

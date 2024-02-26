@@ -4,5 +4,5 @@
 
 void enf::RenderComp::Awake()
 {
-	m_pTransform = m_pParent->GetComponent<TransformComp>();
+	m_TransformPtr = m_ParentPtr->GetComponent<TransformComp>();
 }

@@ -11,6 +11,6 @@ namespace enf
 		void Awake() override;
 
 	protected:
-		TransformComp* m_pTransform{};
+		TransformComp* m_TransformPtr{};
 	};
 }

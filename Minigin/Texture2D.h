@@ -10,7 +10,7 @@ namespace enf
 	class Texture2D final
 	{
 	public:
-		explicit Texture2D(SDL_Texture* texture);
+		explicit Texture2D(SDL_Texture* texturePtr);
 		~Texture2D();
 
 		Texture2D(Texture2D&&) = delete;
@@ -22,6 +22,6 @@ namespace enf
 		glm::ivec2 GetSize() const;
 
 	private:
-		SDL_Texture* m_texture;
+		SDL_Texture* m_TexturePtr;
 	};
 }

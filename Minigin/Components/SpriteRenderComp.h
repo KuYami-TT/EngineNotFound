@@ -22,6 +22,6 @@ namespace enf
 		void Render() override;
 
 	private:
-		std::shared_ptr<Texture2D> m_pTexture;
+		std::shared_ptr<Texture2D> m_TexturePtr;
 	};
 }

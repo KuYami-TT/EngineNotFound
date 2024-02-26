@@ -107,7 +107,7 @@ void enf::Minigin::Run(const std::function<void()>& load)
 {
 	load();
 #ifndef __EMSCRIPTEN__
-	while (!m_quit)
+	while (!m_Quit)
 		RunOneFrame();
 #else
 	emscripten_set_main_loop_arg(&LoopCallback, this, 0, true);
@@ -118,7 +118,7 @@ void enf::Minigin::RunOneFrame()
 {
 	game_time::UpdateDelta();
 
-	m_quit = !InputManager::GetInstance().ProcessInput();
+	m_Quit = !InputManager::GetInstance().ProcessInput();
 
 	m_Lag += game_time::Delta();
 	while (m_Lag >= game_time::FixedDelta())

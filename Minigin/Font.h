@@ -10,7 +10,7 @@ namespace enf
 	class Font final
 	{
 	public:
-		explicit Font(const std::string& fullPath, unsigned int size);
+		explicit Font(const std::string& fullPath, int size);
 		~Font();
 
 		Font(Font &&) = delete;
@@ -21,6 +21,6 @@ namespace enf
 		_TTF_Font* GetFont() const;
 
 	private:
-		_TTF_Font* m_font;
+		_TTF_Font* m_FontPtr;
 	};
 }

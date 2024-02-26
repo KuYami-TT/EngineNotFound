@@ -6,11 +6,11 @@
 enf::SpriteRenderComp::SpriteRenderComp(const std::string& filename) :
 	RenderComp()
 {
-	m_pTexture = ResourceManager::GetInstance().LoadTexture(filename);
+	m_TexturePtr = ResourceManager::GetInstance().LoadTexture(filename);
 }
 
 void enf::SpriteRenderComp::Render()
 {
-	const glm::vec3& pos = m_pTransform->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_pTexture, pos.x, pos.y);
+	const glm::vec3& pos = m_TransformPtr->GetPosition();
+	Renderer::GetInstance().RenderTexture(*m_TexturePtr, pos.x, pos.y);
 }

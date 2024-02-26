@@ -19,12 +19,12 @@ void enf::ResourceManager::Init(const std::filesystem::path& dataPath)
 std::shared_ptr<enf::Texture2D> enf::ResourceManager::LoadTexture(const std::string& file) const
 {
 	const auto fullPath = m_dataPath/file;
-	auto texture = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.string().c_str());
-	if (texture == nullptr)
+	auto texturePtr = IMG_LoadTexture(Renderer::GetInstance().GetSDLRenderer(), fullPath.string().c_str());
+	if (texturePtr == nullptr)
 	{
 		throw std::runtime_error(std::string("Failed to load texture: ") + SDL_GetError());
 	}
-	return std::make_shared<Texture2D>(texture);
+	return std::make_shared<Texture2D>(texturePtr);
 }
 
 std::shared_ptr<enf::Font> enf::ResourceManager::LoadFont(const std::string& file, unsigned int size) const

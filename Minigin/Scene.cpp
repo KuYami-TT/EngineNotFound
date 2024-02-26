@@ -5,29 +5,29 @@
 
 using namespace enf;
 
-unsigned int Scene::m_idCounter = 0;
+unsigned int Scene::m_IdCounter = 0;
 
-Scene::Scene(std::string name) : m_name(std::move(name))
+Scene::Scene(std::string name) : m_Name(std::move(name))
 {}
 
-void Scene::Add(std::shared_ptr<GameObject> object)
+void Scene::Add(std::shared_ptr<GameObject> objectPtr)
 {
-	m_objects.emplace_back(std::move(object));
+	m_ObjectsPtr.emplace_back(std::move(objectPtr));
 }
 
-void Scene::Remove(std::shared_ptr<GameObject> object)
+void Scene::Remove(const std::shared_ptr<GameObject>& objectPtr)
 {
-	m_objects.erase(std::remove(m_objects.begin(), m_objects.end(), object), m_objects.end());
+	m_ObjectsPtr.erase(std::ranges::remove(m_ObjectsPtr, objectPtr).begin(), m_ObjectsPtr.end());
 }
 
 void Scene::RemoveAll()
 {
-	m_objects.clear();
+	m_ObjectsPtr.clear();
 }
 
 void Scene::Awake()
 {
-	for (auto& object : m_objects)
+	for (const auto& object : m_ObjectsPtr)
 	{
 		object->Awake();
 	}
@@ -35,7 +35,7 @@ void Scene::Awake()
 
 void Scene::FixedUpdate()
 {
-	for (auto& object : m_objects)
+	for (const auto& object : m_ObjectsPtr)
 	{
 		object->FixedUpdate();
 	}
@@ -43,7 +43,7 @@ void Scene::FixedUpdate()
 
 void Scene::Update()
 {
-	for(auto& object : m_objects)
+	for(const auto& object : m_ObjectsPtr)
 	{
 		object->Update();
 	}
@@ -51,7 +51,7 @@ void Scene::Update()
 
 void Scene::LateUpdate()
 {
-	for (auto& object : m_objects)
+	for (const auto& object : m_ObjectsPtr)
 	{
 		object->LateUpdate();
 	}
@@ -59,7 +59,7 @@ void Scene::LateUpdate()
 
 void Scene::Render() const
 {
-	for (const auto& object : m_objects)
+	for (const auto& object : m_ObjectsPtr)
 	{
 		object->Render();
 	}

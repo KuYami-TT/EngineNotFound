@@ -1,7 +1,5 @@
-#include <string>
 #include "GameObject.h"
 #include "Managers/ResourceManager.h"
-#include "Renderer.h"
 #include "Components/TransformComp.h"
 
 enf::GameObject::GameObject(const glm::vec3& pos)
@@ -11,7 +9,7 @@ enf::GameObject::GameObject(const glm::vec3& pos)
 
 void enf::GameObject::Awake()
 {
-	for (auto&& comp : m_Components)
+	for (auto&& comp : m_ComponentsPtr)
 	{
 		comp->Awake();
 	}
@@ -19,7 +17,7 @@ void enf::GameObject::Awake()
 
 void enf::GameObject::FixedUpdate()
 {
-	for (auto&& comp : m_Components)
+	for (auto&& comp : m_ComponentsPtr)
 	{
 		comp->FixedUpdate();
 	}
@@ -27,7 +25,7 @@ void enf::GameObject::FixedUpdate()
 
 void enf::GameObject::Update()
 {
-	for (auto&& comp : m_Components)
+	for (auto&& comp : m_ComponentsPtr)
 	{
 		comp->Update();
 	}
@@ -35,7 +33,7 @@ void enf::GameObject::Update()
 
 void enf::GameObject::LateUpdate()
 {
-	for (auto&& comp : m_Components)
+	for (auto&& comp : m_ComponentsPtr)
 	{
 		comp->LateUpdate();
 	}
@@ -43,10 +41,7 @@ void enf::GameObject::LateUpdate()
 
 void enf::GameObject::Render() const
 {
-	//const auto& pos = m_transform.GetPosition();
-	//Renderer::GetInstance().RenderTexture(*m_texture, pos.x, pos.y);
-
-	for (auto&& comp : m_Components)
+	for (auto&& comp : m_ComponentsPtr)
 	{
 		comp->Render();
 	}
@@ -54,14 +49,9 @@ void enf::GameObject::Render() const
 
 void enf::GameObject::CheckMarked()
 {
-	std::erase_if(m_Components, 
+	std::erase_if(m_ComponentsPtr, 
 		[](const std::unique_ptr<Component>& comp)->bool
 		{
 			return comp->IsMarked();
 		});
-}
-
-void enf::GameObject::SetTexture(const std::string& filename)
-{
-	m_texture = ResourceManager::GetInstance().LoadTexture(filename);
 }

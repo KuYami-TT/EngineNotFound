@@ -14,8 +14,8 @@ namespace enf
 		Scene& operator=(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 
-		void Add(std::shared_ptr<GameObject> object);
-		void Remove(std::shared_ptr<GameObject> object);
+		void Add(std::shared_ptr<GameObject> objectPtr);
+		void Remove(const std::shared_ptr<GameObject>& objectPtr);
 		void RemoveAll();
 
 		void Awake();
@@ -29,10 +29,10 @@ namespace enf
 
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 
-		std::string m_name;
-		std::vector < std::shared_ptr<GameObject>> m_objects{};
+		std::string m_Name;
+		std::vector < std::shared_ptr<GameObject>> m_ObjectsPtr{};
 
-		static unsigned int m_idCounter; 
+		static unsigned int m_IdCounter; 
 	};
 
 }

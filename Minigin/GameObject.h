@@ -1,5 +1,4 @@
 #pragma once
-#include <string>
 #include <memory>
 #include <vector>
 
@@ -15,12 +14,11 @@ namespace enf
 	};
 
 	class Texture2D;
-	//todo: make gameobject final
-	class GameObject
+	class GameObject final
 	{
 	public:
 		GameObject(const glm::vec3& pos = glm::vec3{0, 0, 0});
-		virtual ~GameObject() = default;
+		~GameObject() = default;
 
 		GameObject(GameObject&& other) = delete;
 		GameObject(const GameObject& other) = delete;
@@ -28,10 +26,10 @@ namespace enf
 		GameObject& operator=(const GameObject& other) = delete;
 
 		void Awake();
-		virtual void FixedUpdate();
-		virtual void Update();
-		virtual void LateUpdate();
-		virtual void Render() const;
+		void FixedUpdate();
+		void Update();
+		void LateUpdate();
+		void Render() const;
 
         template<IComponent ComponentType, typename... TArgs>
         ComponentType* AddComponent(const TArgs&... args)
@@ -39,23 +37,23 @@ namespace enf
 			if (HasComponent<ComponentType>())
 				return nullptr;
 		
-			auto& newComp = m_Components.emplace_back(std::make_unique<ComponentType>(args...));
-			newComp->SetParent(this);
-			newComp->Awake();
+			auto& newCompPtr = m_ComponentsPtr.emplace_back(std::make_unique<ComponentType>(args...));
+			newCompPtr->SetParent(this);
+			newCompPtr->Awake();
 
-			return reinterpret_cast<ComponentType*>(newComp.get());
+			return reinterpret_cast<ComponentType*>(newCompPtr.get());
 		}
 		
 		template<IComponent ComponentType>
 		ComponentType* GetComponent()
 		{
-			auto it = std::ranges::find_if(m_Components, [](const std::unique_ptr<Component>& type)->bool
+			auto it = std::ranges::find_if(m_ComponentsPtr, [](const std::unique_ptr<Component>& type)->bool
 				{
-					auto pCasted = dynamic_cast<ComponentType*>(type.get());
-					return pCasted != nullptr;
+					auto pCastedPtr = dynamic_cast<ComponentType*>(type.get());
+					return pCastedPtr != nullptr;
 				});
 
-			if (it != m_Components.end())
+			if (it != m_ComponentsPtr.end())
 			{
 				return dynamic_cast<ComponentType*>(it->get());
 			}
@@ -72,12 +70,7 @@ namespace enf
 		//Delete components that are marked for deletion 
 		void CheckMarked();
 
-		void SetTexture(const std::string& filename);
-
 	private:
-		std::vector<std::unique_ptr<Component>> m_Components{};
-
-		//todo: each gameobject doenst need a texture
-		std::shared_ptr<Texture2D> m_texture{};
+		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 	};
 }

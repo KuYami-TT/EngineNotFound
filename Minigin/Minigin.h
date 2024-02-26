@@ -20,7 +20,7 @@ namespace enf
 		void RunOneFrame();
 
 	private:
-		bool m_quit{};
+		bool m_Quit{};
 		double m_Lag{};
 	};
 }

@@ -12,7 +12,7 @@ namespace enf
 	class FPSComp final : public Component
 	{
 	public:
-		FPSComp(std::shared_ptr<Font> pFont);
+		FPSComp(std::shared_ptr<Font> fontPtr);
 		~FPSComp() override = default;
 
 		FPSComp(FPSComp&& other) = delete;
@@ -28,8 +28,8 @@ namespace enf
 		int m_Precision{ 1 };
 		float m_UpdateDelay{ .5f };
 		double m_Timer{};
-		TextRenderComp* m_pTextRenderComp{};
-		std::shared_ptr<Font> m_pFont;
+		TextRenderComp* m_TextRenderCompPtr{};
+		std::shared_ptr<Font> m_FontPtr;
 
 		std::deque<double> m_TotalFPS{};
 

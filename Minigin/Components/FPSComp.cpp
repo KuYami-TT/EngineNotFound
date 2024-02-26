@@ -8,21 +8,21 @@
 #include "GameObject.h"
 #include "TextRenderComp.h"
 
-enf::FPSComp::FPSComp([[maybe_unused]] std::shared_ptr<Font> pFont) :
+enf::FPSComp::FPSComp([[maybe_unused]] std::shared_ptr<Font> fontPtr) :
 	Component(),
-	m_pFont{std::move(pFont)},
+	m_FontPtr{std::move(fontPtr)},
 	m_NeedsUpdate{true}
 {
 }
 
 void enf::FPSComp::Awake()
 {
-	m_pTextRenderComp = GetParent()->AddComponent<TextRenderComp>(m_pFont);
+	m_TextRenderCompPtr = GetParent()->AddComponent<TextRenderComp>(m_FontPtr);
 }
 
 void enf::FPSComp::Update()
 {
-	if(m_pTextRenderComp == nullptr)
+	if(m_TextRenderCompPtr == nullptr)
 		return;
 
 	if(m_NeedsUpdate)
@@ -33,7 +33,7 @@ void enf::FPSComp::Update()
 		textBuffer << std::fixed << std::setprecision(m_Precision) << GetAverageFps();
 		textBuffer << " FPS";
 
-		m_pTextRenderComp->SetText(textBuffer.str());
+		m_TextRenderCompPtr->SetText(textBuffer.str());
 		m_TotalFPS.clear();
 			
 		m_NeedsUpdate = false;

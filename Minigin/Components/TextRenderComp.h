@@ -12,7 +12,7 @@ namespace enf
 	class TextRenderComp final : public RenderComp
 	{
 	public:
-		TextRenderComp(std::shared_ptr<Font> pFont, std::string text = {});
+		TextRenderComp(std::shared_ptr<Font> fontPtr, std::string text = {});
 		~TextRenderComp() override = default;
 
 		TextRenderComp(TextRenderComp&& other) = delete;
@@ -27,8 +27,8 @@ namespace enf
 
 	private:
 		std::string m_Text;
-		std::shared_ptr<Font> m_Font;
-		std::shared_ptr<Texture2D> m_TextTexture{};
+		std::shared_ptr<Font> m_FontPtr;
+		std::shared_ptr<Texture2D> m_TextTexturePtr{};
 
 		bool m_Dirty;
 	};

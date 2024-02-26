@@ -2,14 +2,14 @@
 
 #include "GameObject.h"
 
-void enf::Component::SetParent(GameObject* pParent)
+void enf::Component::SetParent(GameObject* parentPtr)
 {
-	m_pParent = pParent;
+	m_ParentPtr = parentPtr;
 }
 
 enf::GameObject* enf::Component::GetParent() const
 {
-	return m_pParent;
+	return m_ParentPtr;
 }
 
 void enf::Component::MarkForMurder()

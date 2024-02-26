@@ -3,7 +3,7 @@
 
 void enf::SceneManager::Awake()
 {
-	for (auto& scene : m_scenes)
+	for (const auto& scene : m_ScenesPtr)
 	{
 		scene->Awake();
 	}
@@ -11,7 +11,7 @@ void enf::SceneManager::Awake()
 
 void enf::SceneManager::FixedUpdate()
 {
-	for (auto& scene : m_scenes)
+	for (const auto& scene : m_ScenesPtr)
 	{
 		scene->FixedUpdate();
 	}
@@ -19,7 +19,7 @@ void enf::SceneManager::FixedUpdate()
 
 void enf::SceneManager::Update()
 {
-	for(auto& scene : m_scenes)
+	for(const auto& scene : m_ScenesPtr)
 	{
 		scene->Update();
 	}
@@ -27,7 +27,7 @@ void enf::SceneManager::Update()
 
 void enf::SceneManager::LateUpdate()
 {
-	for (auto& scene : m_scenes)
+	for (const auto& scene : m_ScenesPtr)
 	{
 		scene->LateUpdate();
 	}
@@ -35,7 +35,7 @@ void enf::SceneManager::LateUpdate()
 
 void enf::SceneManager::Render()
 {
-	for (const auto& scene : m_scenes)
+	for (const auto& scene : m_ScenesPtr)
 	{
 		scene->Render();
 	}
@@ -44,6 +44,6 @@ void enf::SceneManager::Render()
 enf::Scene& enf::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_scenes.push_back(scene);
+	m_ScenesPtr.push_back(scene);
 	return *scene;
 }
