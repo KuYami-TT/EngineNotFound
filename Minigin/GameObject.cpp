@@ -2,8 +2,9 @@
 #include "Managers/ResourceManager.h"
 #include "Components/TransformComp.h"
 
-enf::GameObject::GameObject(const glm::vec3& pos)
+enf::GameObject::GameObject(const std::string& name, const glm::vec3& pos)
 {
+	m_Name = name;
 	AddComponent<TransformComp>()->SetPosition(pos);
 }
 
