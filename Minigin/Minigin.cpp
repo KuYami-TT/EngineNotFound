@@ -130,6 +130,7 @@ void enf::Minigin::RunOneFrame()
 	SceneManager::GetInstance().Update();
 	SceneManager::GetInstance().LateUpdate();
 	Renderer::GetInstance().Render();
+	SceneManager::GetInstance().CleanUp();
 
 	std::this_thread::sleep_for(game_time::Sleep());
 }

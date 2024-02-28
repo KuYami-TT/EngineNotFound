@@ -17,6 +17,7 @@ namespace enf
 		void Update();
 		void LateUpdate();
 		void Render();
+		void CleanUp();
 
 	private:
 		friend class Singleton<SceneManager>;

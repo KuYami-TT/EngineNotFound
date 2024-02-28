@@ -68,7 +68,7 @@ namespace enf
 		}
 
 		//Delete components that are marked for deletion 
-		void CheckMarked();
+		void CheckToMurder();
 
 	private:
 		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};

@@ -41,6 +41,14 @@ void enf::SceneManager::Render()
 	}
 }
 
+void enf::SceneManager::CleanUp()
+{
+	for (const auto& scene : m_ScenesPtr)
+	{
+		scene->CleanUp();
+	}
+}
+
 enf::Scene& enf::SceneManager::CreateScene(const std::string& name)
 {
 	const auto& scene = std::shared_ptr<Scene>(new Scene(name));

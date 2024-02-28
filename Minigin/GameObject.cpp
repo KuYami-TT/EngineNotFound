@@ -47,7 +47,7 @@ void enf::GameObject::Render() const
 	}
 }
 
-void enf::GameObject::CheckMarked()
+void enf::GameObject::CheckToMurder()
 {
 	std::erase_if(m_ComponentsPtr, 
 		[](const std::unique_ptr<Component>& comp)->bool
