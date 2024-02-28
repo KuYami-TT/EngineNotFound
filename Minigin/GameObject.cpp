@@ -19,6 +19,9 @@ void enf::GameObject::FixedUpdate()
 {
 	for (auto&& comp : m_ComponentsPtr)
 	{
+		if (comp->IsMarked())
+			continue;
+
 		comp->FixedUpdate();
 	}
 }
@@ -27,6 +30,9 @@ void enf::GameObject::Update()
 {
 	for (auto&& comp : m_ComponentsPtr)
 	{
+		if (comp->IsMarked())
+			continue;
+
 		comp->Update();
 	}
 }
@@ -35,6 +41,9 @@ void enf::GameObject::LateUpdate()
 {
 	for (auto&& comp : m_ComponentsPtr)
 	{
+		if (comp->IsMarked())
+			continue;
+
 		comp->LateUpdate();
 	}
 }
@@ -43,6 +52,9 @@ void enf::GameObject::Render() const
 {
 	for (auto&& comp : m_ComponentsPtr)
 	{
+		if (comp->IsMarked())
+			continue;
+
 		comp->Render();
 	}
 }
