@@ -44,6 +44,11 @@ void enf::FPSComp::Update()
 	m_NeedsUpdate = m_Timer > static_cast<double>(m_UpdateDelay);
 }
 
+void enf::FPSComp::SetPrecision(int newPrecision)
+{
+	m_Precision = newPrecision;
+}
+
 double enf::FPSComp::GetAverageFps()
 {
 	if (m_TotalFPS.size() < 2)
