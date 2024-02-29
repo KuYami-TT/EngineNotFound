@@ -7,12 +7,12 @@ namespace enf
     {
         void UpdateDelta();
 
-        [[nodiscard]] double Delta();
-        [[nodiscard]] double UnscaledDelta();
-        [[nodiscard]] double FixedDelta();
-        [[nodiscard]] double FPS();
-        [[nodiscard]] std::chrono::duration<double, std::milli> Sleep();
+        [[nodiscard]] float Delta();
+        [[nodiscard]] float UnscaledDelta();
+        [[nodiscard]] float FixedDelta();
+        [[nodiscard]] float FPS();
+        [[nodiscard]] std::chrono::duration<float, std::milli> Sleep();
 
-        void SetScale(double timeScale = 1.);
+        void SetScale(float timeScale = 1.);
     };
 }
