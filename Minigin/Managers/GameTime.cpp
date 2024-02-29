@@ -19,6 +19,9 @@ void enf::game_time::UpdateDelta()
 
 double enf::game_time::Delta()
 {
+    if (g_DeltaTime > 1)
+        g_DeltaTime = 1;
+
     return g_DeltaTime * g_TimeScale;
 }
 
