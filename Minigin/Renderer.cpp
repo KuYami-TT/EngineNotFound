@@ -1,8 +1,14 @@
 #include <stdexcept>
 #include <cstring>
 #include "Renderer.h"
+
+#include <algorithm>
+
 #include "Managers/SceneManager.h"
 #include "Texture2D.h"
+#include "Components/RenderComp.h"
+#include "Components/TransformComp.h"
+#include "glm/vec3.hpp"
 
 int GetOpenGLDriverIndex()
 {
@@ -28,13 +34,32 @@ void enf::Renderer::Init(SDL_Window* window)
 	}
 }
 
+void enf::Renderer::Update()
+{
+	if (m_Dirty)
+	{
+		m_RenderListPtr.sort([](const RenderComp* a, const RenderComp* b)
+			{
+				return a->GetRenderDepth() < b->GetRenderDepth();
+			});
+		m_Dirty = false;
+	}
+}
+
 void enf::Renderer::Render() const
 {
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_RendererPtr, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_RendererPtr);
 
-	SceneManager::GetInstance().Render();
+	for (const auto comp : m_RenderListPtr)
+	{
+		if(comp->GetTexturePtr() == nullptr)
+			continue;
+
+		const glm::vec3& pos = comp->GetTransformPtr()->GetPosition();
+		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
+	}
 	
 	SDL_RenderPresent(m_RendererPtr);
 }
@@ -68,3 +93,39 @@ void enf::Renderer::RenderTexture(const Texture2D& texture, const float x, const
 }
 
 SDL_Renderer* enf::Renderer::GetSDLRenderer() const { return m_RendererPtr; }
+
+void enf::Renderer::SetDirty()
+{
+	m_Dirty = true;
+}
+
+void enf::Renderer::AddToRenderList(RenderComp* renderCompPtr)
+{
+	assert(not HasPtrInRenderList(renderCompPtr));
+	if (HasPtrInRenderList(renderCompPtr))
+		return;
+
+	const auto it
+		= std::ranges::find_if(m_RenderListPtr,
+			[&](const RenderComp* comp)->bool
+			{
+				return comp->GetRenderDepth() > renderCompPtr->GetRenderDepth();
+			});
+
+	if (it == m_RenderListPtr.end())
+		m_RenderListPtr.push_back(renderCompPtr);
+	else if( it == m_RenderListPtr.begin())
+		m_RenderListPtr.push_front(renderCompPtr);
+	else
+		m_RenderListPtr.insert(std::prev(it), renderCompPtr);
+}
+
+bool enf::Renderer::RemoveOutRenderList(RenderComp* renderCompPtr)
+{
+	return std::erase(m_RenderListPtr, renderCompPtr) > 0 ? true : false;
+}
+
+bool enf::Renderer::HasPtrInRenderList(RenderComp* renderCompPtr)
+{
+	return std::ranges::find(m_RenderListPtr, renderCompPtr) != m_RenderListPtr.end();
+}
