@@ -1,4 +1,6 @@
 #include "SceneManager.h"
+
+#include "Renderer.h"
 #include "Scene.h"
 
 void enf::SceneManager::Awake()
@@ -19,6 +21,8 @@ void enf::SceneManager::FixedUpdate()
 
 void enf::SceneManager::Update()
 {
+	Renderer::GetInstance().Update();
+
 	for(const auto& scene : m_ScenesPtr)
 	{
 		scene->Update();
@@ -38,6 +42,14 @@ void enf::SceneManager::Render()
 	for (const auto& scene : m_ScenesPtr)
 	{
 		scene->Render();
+	}
+}
+
+void enf::SceneManager::CleanUp()
+{
+	for (const auto& scene : m_ScenesPtr)
+	{
+		scene->CleanUp();
 	}
 }
 

@@ -65,3 +65,10 @@ void Scene::Render() const
 	}
 }
 
+void Scene::CleanUp()
+{
+	for (const auto& object : m_ObjectsPtr) 
+	{
+		object->CheckToMurder();
+	}
+}

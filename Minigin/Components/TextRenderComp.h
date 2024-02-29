@@ -21,14 +21,12 @@ namespace enf
 		TextRenderComp& operator=(const TextRenderComp& other) = delete;
 
 		void Update() override;
-		void Render() override;
 
 		void SetText(const std::string& text);
 
 	private:
 		std::string m_Text;
 		std::shared_ptr<Font> m_FontPtr;
-		std::shared_ptr<Texture2D> m_TextTexturePtr{};
 
 		bool m_Dirty;
 	};

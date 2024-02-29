@@ -8,10 +8,10 @@
 #include "GameObject.h"
 #include "TextRenderComp.h"
 
-enf::FPSComp::FPSComp([[maybe_unused]] std::shared_ptr<Font> fontPtr) :
+enf::FPSComp::FPSComp(std::shared_ptr<Font> fontPtr) :
 	Component(),
-	m_FontPtr{std::move(fontPtr)},
-	m_NeedsUpdate{true}
+	m_NeedsUpdate{true},
+	m_FontPtr{std::move(fontPtr)}
 {
 }
 
@@ -27,7 +27,7 @@ void enf::FPSComp::Update()
 
 	if(m_NeedsUpdate)
 	{
-		m_Timer -= m_UpdateDelay;
+		m_Timer -= static_cast<double>(m_UpdateDelay);
 
 		std::stringstream textBuffer;
 		textBuffer << std::fixed << std::setprecision(m_Precision) << GetAverageFps();
@@ -41,7 +41,12 @@ void enf::FPSComp::Update()
 
 	m_TotalFPS.push_back(game_time::FPS());
 	m_Timer += game_time::Delta();
-	m_NeedsUpdate = m_Timer > m_UpdateDelay;
+	m_NeedsUpdate = m_Timer > static_cast<double>(m_UpdateDelay);
+}
+
+void enf::FPSComp::SetPrecision(int newPrecision)
+{
+	m_Precision = newPrecision;
 }
 
 double enf::FPSComp::GetAverageFps()

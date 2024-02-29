@@ -1,5 +1,6 @@
 #pragma once
 #include <memory>
+#include <string>
 #include <vector>
 
 #include "Component.h"
@@ -17,7 +18,7 @@ namespace enf
 	class GameObject final
 	{
 	public:
-		GameObject(const glm::vec3& pos = glm::vec3{0, 0, 0});
+		GameObject(const std::string& name, const glm::vec3& pos = glm::vec3{0, 0, 0});
 		~GameObject() = default;
 
 		GameObject(GameObject&& other) = delete;
@@ -68,9 +69,10 @@ namespace enf
 		}
 
 		//Delete components that are marked for deletion 
-		void CheckMarked();
+		void CheckToMurder();
 
 	private:
+		std::string m_Name{};
 		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 	};
 }

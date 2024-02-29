@@ -6,6 +6,8 @@ namespace enf
 	class Component
 	{
 	public:
+		friend GameObject;
+
 		virtual ~Component() = default;
 
 		Component(Component&& other) = delete;
@@ -13,7 +15,6 @@ namespace enf
 		Component& operator=(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 
-		void SetParent(GameObject* parentPtr);
 		[[nodiscard]]GameObject* GetParent() const;
 
 		virtual inline void Awake(){}
@@ -28,10 +29,12 @@ namespace enf
 		[[nodiscard]] bool IsMarked() const;
 
 	protected:
-		GameObject* m_ParentPtr{};
 		Component() = default;
 
 	private:
+		GameObject* m_ParentPtr{};
 		bool m_Delete{};
+
+		void SetParent(GameObject* parentPtr);
 	};
 }

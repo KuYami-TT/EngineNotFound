@@ -23,6 +23,7 @@ namespace enf
 		void Update();
 		void LateUpdate();
 		void Render() const;
+		void CleanUp();
 
 	private:
 		explicit Scene(std::string name);
@@ -34,5 +35,4 @@ namespace enf
 
 		static unsigned int m_IdCounter; 
 	};
-
 }

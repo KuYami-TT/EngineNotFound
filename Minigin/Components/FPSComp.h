@@ -23,6 +23,8 @@ namespace enf
 		void Awake() override;
 		void Update() override;
 
+		void SetPrecision(int newPrecision);
+
 	private:
 		bool m_NeedsUpdate;
 		int m_Precision{ 1 };

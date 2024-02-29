@@ -7,8 +7,6 @@
 #include "SDL_surface.h"
 #include "SDL_ttf.h"
 #include "Texture2D.h"
-#include "TransformComp.h"
-#include "glm/vec3.hpp"
 
 enf::TextRenderComp::TextRenderComp(std::shared_ptr<Font> fontPtr, std::string text) :
 	RenderComp(),
@@ -24,15 +22,6 @@ void enf::TextRenderComp::Update()
 	{
 		SetText(m_Text);
 	}
-}
-
-void enf::TextRenderComp::Render()
-{
-	if(!m_TextTexturePtr)
-		return;
-
-	const glm::vec3& pos = m_TransformPtr->GetPosition();
-	Renderer::GetInstance().RenderTexture(*m_TextTexturePtr, pos.x, pos.y);
 }
 
 void enf::TextRenderComp::SetText(const std::string& text)
@@ -55,6 +44,6 @@ void enf::TextRenderComp::SetText(const std::string& text)
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surfPtr);
-	m_TextTexturePtr = std::make_shared<Texture2D>(texture);
+	m_TexturePtr = std::make_shared<Texture2D>(texture);
 	m_Dirty = false;
 }
