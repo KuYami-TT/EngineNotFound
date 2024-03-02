@@ -25,7 +25,6 @@ namespace enf
 
 		//Mark for deletion
 		void MarkForMurder();
-		void LetLive();
 		[[nodiscard]] bool IsMarked() const;
 
 	protected:
