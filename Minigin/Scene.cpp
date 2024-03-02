@@ -31,6 +31,9 @@ void Scene::Awake()
 {
 	for (const auto& object : m_ObjectsPtr)
 	{
+		if(object->IsMarked())
+			continue;
+
 		object->Awake();
 	}
 }
@@ -39,6 +42,9 @@ void Scene::FixedUpdate()
 {
 	for (const auto& object : m_ObjectsPtr)
 	{
+		if (object->IsMarked())
+			continue;
+
 		object->FixedUpdate();
 	}
 }
@@ -47,6 +53,9 @@ void Scene::Update()
 {
 	for(const auto& object : m_ObjectsPtr)
 	{
+		if (object->IsMarked())
+			continue;
+
 		object->Update();
 	}
 }
@@ -55,6 +64,9 @@ void Scene::LateUpdate()
 {
 	for (const auto& object : m_ObjectsPtr)
 	{
+		if (object->IsMarked())
+			continue;
+
 		object->LateUpdate();
 	}
 }
@@ -63,12 +75,21 @@ void Scene::Render() const
 {
 	for (const auto& object : m_ObjectsPtr)
 	{
+		if (object->IsMarked())
+			continue;
+
 		object->Render();
 	}
 }
 
 void Scene::CleanUp()
 {
+	std::erase_if(m_ObjectsPtr,
+		[](const std::unique_ptr<GameObject>& object)->bool
+		{
+			return object->IsMarked();
+		});
+
 	for (const auto& object : m_ObjectsPtr) 
 	{
 		object->CheckToMurder();

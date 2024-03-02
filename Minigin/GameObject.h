@@ -37,6 +37,10 @@ namespace enf
 		[[nodiscard]] inline GameObject* GetChildAt(int index) const { return m_ChildrenPtrVec[index]; }
 		[[nodiscard]] inline int GetChildCount() const { return static_cast<int>(m_ChildrenPtrVec.size()); }
 
+		//Mark for deletion
+		void MarkForMurder();
+		[[nodiscard]] bool IsMarked() const;
+
         template<IComponent ComponentType, typename... TArgs>
         ComponentType* AddComponent(const TArgs&... args)
 		{
@@ -77,9 +81,10 @@ namespace enf
 		void CheckToMurder();
 
 	private:
+		bool m_Delete{};
 		std::string m_Name{};
-		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 		GameObject* m_ParentPtr{};
+		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 		std::vector<GameObject*> m_ChildrenPtrVec{};
 
 		void AddChild(GameObject* child);

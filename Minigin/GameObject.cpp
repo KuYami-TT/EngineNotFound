@@ -86,6 +86,21 @@ void enf::GameObject::SetParent(GameObject* parent)
 	}
 }
 
+void enf::GameObject::MarkForMurder()
+{
+	m_Delete = true;
+
+	for (const auto child : m_ChildrenPtrVec)
+	{
+		child->MarkForMurder();
+	}
+}
+
+bool enf::GameObject::IsMarked() const
+{
+	return m_Delete;
+}
+
 void enf::GameObject::CheckToMurder()
 {
 	std::erase_if(m_ComponentsPtr, 
