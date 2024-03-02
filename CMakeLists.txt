@@ -55,12 +55,14 @@ target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
 # set minigin as the default startup project
 set_property(DIRECTORY ${CMAKE_CURRENT_SOURCE_DIR} PROPERTY VS_STARTUP_PROJECT ${TARGET_NAME})
 
+Set(FETCHCONTENT_QUIET FALSE)
+
 include(FetchContent)
 # add glm
 FetchContent_Declare(
   glm
   URL https://github.com/g-truc/glm/releases/download/0.9.9.8/glm-0.9.9.8.zip
-  DOWNLOAD_NO_PROGRESS ON
+  DOWNLOAD_NO_PROGRESS OFF
   DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
 )
 
@@ -74,7 +76,7 @@ if (WIN32)
   FetchContent_Declare(
     SDL2
     URL https://www.libsdl.org/release/SDL2-devel-2.28.5-VC.zip 
-    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_NO_PROGRESS OFF
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads 
   )
   FetchContent_GetProperties(SDL2)
@@ -94,7 +96,7 @@ if (WIN32)
   FetchContent_Declare(
     SDL2_image
     URL https://www.libsdl.org/projects/SDL_image/release/SDL2_image-devel-2.8.2-VC.zip 
-    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_NO_PROGRESS OFF
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
   )
   FetchContent_GetProperties(SDL2_image)
@@ -114,7 +116,7 @@ if (WIN32)
   FetchContent_Declare(
     SDL2_ttf
     URL https://www.libsdl.org/projects/SDL_ttf/release/SDL2_ttf-devel-2.20.2-VC.zip
-    DOWNLOAD_NO_PROGRESS ON
+    DOWNLOAD_NO_PROGRESS OFF
     DOWNLOAD_DIR ${CMAKE_BINARY_DIR}/downloads
   )
   FetchContent_GetProperties(SDL2_ttf)

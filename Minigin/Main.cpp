@@ -26,23 +26,38 @@ void load()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
-	auto object = std::make_shared<GameObject>("background");
+	auto object = scene.AddGameObject("background");
 	object->AddComponent<SpriteRenderComp>("background.tga");
-	scene.Add(object);
 
-	object = std::make_shared<GameObject>("logo", glm::vec3{216, 180, 0});
+	
+	object = scene.AddGameObject("logo", glm::vec3{ 300, 80, 0 });
 	object->AddComponent<SpriteRenderComp>("logo.tga");
-	scene.Add(object);
-
-	object = std::make_shared<GameObject>("title", glm::vec3{150, 20, 0});
+	
+	object = scene.AddGameObject("title", glm::vec3{ 250, 20, 0 });
 	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
-	scene.Add(object);
 
-	object = std::make_shared<GameObject>("fps", glm::vec3{10, 20, 0});
+	object = scene.AddGameObject("fps", glm::vec3{ 10, 20, 0 });
 	const auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
-	scene.Add(object);
+
+	//Cacodemons c:<
+	const auto cacodemonMain = scene.AddGameObject("Cacodemon_96x96", glm::vec3{ 214, 214, 0 });
+	cacodemonMain->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+
+	const auto cacodemon00 = scene.AddGameObject("Cacodemon_72x72");
+	cacodemon00->AddComponent<SpriteRenderComp>("Cacodemon_72x72.png");
+	cacodemon00->SetParent(cacodemonMain);
+
+	const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
+	cacodemon01->AddComponent<SpriteRenderComp>("Cacodemon_48x48.png");
+	cacodemon01->SetParent(cacodemon00);
+	cacodemon01->SetParent(cacodemonMain);
+
+	const auto cacodemon02 = scene.AddGameObject("cacodemon_36x36");
+	cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
+	cacodemon02->SetParent(cacodemon01);
+	cacodemon02->SetParent(cacodemonMain);
 }
 
 int main(int, char*[]) {

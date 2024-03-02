@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+
 using namespace enf;
 
 unsigned int Scene::m_IdCounter = 0;
@@ -10,12 +11,13 @@ unsigned int Scene::m_IdCounter = 0;
 Scene::Scene(std::string name) : m_Name(std::move(name))
 {}
 
-void Scene::Add(std::shared_ptr<GameObject> objectPtr)
+GameObject* Scene::AddGameObject(const std::string& name, const glm::vec3& pos)
 {
-	m_ObjectsPtr.emplace_back(std::move(objectPtr));
+	m_ObjectsPtr.emplace_back(std::make_unique<GameObject>(name, pos));
+	return m_ObjectsPtr.back().get();
 }
 
-void Scene::Remove(const std::shared_ptr<GameObject>& objectPtr)
+void Scene::Remove(const std::unique_ptr<GameObject>& objectPtr)
 {
 	m_ObjectsPtr.erase(std::ranges::remove(m_ObjectsPtr, objectPtr).begin(), m_ObjectsPtr.end());
 }

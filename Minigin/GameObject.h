@@ -32,6 +32,11 @@ namespace enf
 		void LateUpdate();
 		void Render() const;
 
+		void SetParent(GameObject* parent);
+		[[nodiscard]] inline GameObject* GetParent() const { return m_ParentPtr; }
+		[[nodiscard]] inline GameObject* GetChildAt(int index) const { return m_ChildrenPtrVec[index]; }
+		[[nodiscard]] inline int GetChildCount() const { return static_cast<int>(m_ChildrenPtrVec.size()); }
+
         template<IComponent ComponentType, typename... TArgs>
         ComponentType* AddComponent(const TArgs&... args)
 		{
@@ -74,5 +79,11 @@ namespace enf
 	private:
 		std::string m_Name{};
 		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
+		GameObject* m_ParentPtr{};
+		std::vector<GameObject*> m_ChildrenPtrVec{};
+
+		void AddChild(GameObject* child);
+		void RemoveChild(GameObject* child);
+		[[nodiscard]] bool IsChild(GameObject* child);
 	};
 }
