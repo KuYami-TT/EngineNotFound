@@ -76,16 +76,12 @@ void enf::GameObject::SetParent(GameObject* parent)
 		return;
 
 	if (m_ParentPtr)
-	{
 		m_ParentPtr->RemoveChild(this);
-	}
 
 	m_ParentPtr = parent;
 
 	if (m_ParentPtr)
-	{
 		m_ParentPtr->AddChild(this);
-	}
 }
 
 void enf::GameObject::MarkForMurder()
