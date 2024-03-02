@@ -52,12 +52,10 @@ void DemoScene()
 	const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
 	cacodemon01->AddComponent<SpriteRenderComp>("Cacodemon_48x48.png");
 	cacodemon01->SetParent(cacodemon00);
-	cacodemon01->SetParent(cacodemonMain);
 
 	const auto cacodemon02 = scene.AddGameObject("cacodemon_36x36");
 	cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
 	cacodemon02->SetParent(cacodemon01);
-	cacodemon02->SetParent(cacodemonMain);
 }
 
 void load()

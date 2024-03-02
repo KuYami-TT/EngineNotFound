@@ -62,26 +62,28 @@ void enf::GameObject::Render() const
 
 void enf::GameObject::SetParent(GameObject* parent)
 {
-	assert(parent != this && "Error: GameObject with parent itself");
-	if(parent == this)
+	if (parent == this) {
+		assert(false && "Error: GameObject cannot be its own parent");
 		return;
+	}
 
-	assert(!IsChild(parent) && "Error: Child can't be the parent, first remove child");
-	if (IsChild(parent))
+	if (IsChild(parent)) {
+		assert(false && "Error: Child cannot be set as parent");
 		return;
+	}
 
 	if(m_ParentPtr == parent)
 		return;
 
-	if(m_ParentPtr == nullptr)
-	{
-		m_ParentPtr = parent;
-		m_ParentPtr->AddChild(this);
-	}
-	else
+	if (m_ParentPtr)
 	{
 		m_ParentPtr->RemoveChild(this);
-		m_ParentPtr = parent;
+	}
+
+	m_ParentPtr = parent;
+
+	if (m_ParentPtr)
+	{
 		m_ParentPtr->AddChild(this);
 	}
 }
