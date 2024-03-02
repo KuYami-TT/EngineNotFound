@@ -22,17 +22,17 @@
 namespace fs = std::filesystem;
 using namespace enf;
 
-void load()
+void DemoScene()
 {
 	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
 
 	auto object = scene.AddGameObject("background");
 	object->AddComponent<SpriteRenderComp>("background.tga");
 
-	
+
 	object = scene.AddGameObject("logo", glm::vec3{ 300, 80, 0 });
 	object->AddComponent<SpriteRenderComp>("logo.tga");
-	
+
 	object = scene.AddGameObject("title", glm::vec3{ 250, 20, 0 });
 	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
 	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
@@ -58,6 +58,11 @@ void load()
 	cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
 	cacodemon02->SetParent(cacodemon01);
 	cacodemon02->SetParent(cacodemonMain);
+}
+
+void load()
+{
+	DemoScene();
 }
 
 int main(int, char*[]) {
