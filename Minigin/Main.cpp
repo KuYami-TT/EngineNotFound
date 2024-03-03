@@ -29,7 +29,6 @@ void DemoScene()
 	auto object = scene.AddGameObject("background");
 	object->AddComponent<SpriteRenderComp>("background.tga");
 
-
 	object = scene.AddGameObject("logo", glm::vec3{ 300, 80, 0 });
 	object->AddComponent<SpriteRenderComp>("logo.tga");
 

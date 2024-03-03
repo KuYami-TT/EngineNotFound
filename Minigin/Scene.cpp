@@ -71,17 +71,6 @@ void Scene::LateUpdate()
 	}
 }
 
-void Scene::Render() const
-{
-	for (const auto& object : m_ObjectsPtr)
-	{
-		if (object->IsMarked())
-			continue;
-
-		object->Render();
-	}
-}
-
 void Scene::CleanUp()
 {
 	std::erase_if(m_ObjectsPtr,

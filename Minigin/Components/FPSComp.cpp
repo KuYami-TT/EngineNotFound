@@ -17,7 +17,7 @@ enf::FPSComp::FPSComp(std::shared_ptr<Font> fontPtr) :
 
 void enf::FPSComp::Awake()
 {
-	m_TextRenderCompPtr = GetParent()->AddComponent<TextRenderComp>(m_FontPtr);
+	m_TextRenderCompPtr = GetOwner()->AddComponent<TextRenderComp>(m_FontPtr);
 }
 
 void enf::FPSComp::Update()

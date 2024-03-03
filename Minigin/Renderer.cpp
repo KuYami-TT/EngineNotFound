@@ -4,10 +4,8 @@
 
 #include <algorithm>
 
-#include "Managers/SceneManager.h"
 #include "Texture2D.h"
 #include "Components/RenderComp.h"
-#include "Components/TransformComp.h"
 #include "glm/vec3.hpp"
 
 int GetOpenGLDriverIndex()
@@ -57,7 +55,7 @@ void enf::Renderer::Render() const
 		if(comp->GetTexturePtr() == nullptr)
 			continue;
 
-		const glm::vec3& pos = comp->GetTransformPtr()->GetPosition();
+		const glm::vec3& pos = comp->GetOwner()->GetWorldPos();
 		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
 	}
 	

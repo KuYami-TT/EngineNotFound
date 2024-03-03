@@ -15,13 +15,12 @@ namespace enf
 		Component& operator=(Component&& other) = delete;
 		Component& operator=(const Component& other) = delete;
 
-		[[nodiscard]]GameObject* GetParent() const;
+		[[nodiscard]]GameObject* GetOwner() const;
 
 		virtual inline void Awake(){}
 		virtual inline void FixedUpdate(){}
 		virtual inline void Update(){}
 		virtual inline void LateUpdate(){}
-		virtual inline void Render(){}
 
 		//Mark for deletion
 		void MarkForMurder();
@@ -31,9 +30,9 @@ namespace enf
 		Component() = default;
 
 	private:
-		GameObject* m_ParentPtr{};
+		GameObject* m_OwnerPtr{};
 		bool m_Delete{};
 
-		void SetParent(GameObject* parentPtr);
+		void SetOwner(GameObject* ownerPtr);
 	};
 }
