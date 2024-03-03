@@ -2,24 +2,19 @@
 
 #include "GameObject.h"
 
-void enf::Component::SetParent(GameObject* parentPtr)
+void enf::Component::SetOwner(GameObject* ownerPtr)
 {
-	m_ParentPtr = parentPtr;
+	m_OwnerPtr = ownerPtr;
 }
 
-enf::GameObject* enf::Component::GetParent() const
+enf::GameObject* enf::Component::GetOwner() const
 {
-	return m_ParentPtr;
+	return m_OwnerPtr;
 }
 
 void enf::Component::MarkForMurder()
 {
 	m_Delete = true;
-}
-
-void enf::Component::LetLive()
-{
-	m_Delete = false;
 }
 
 bool enf::Component::IsMarked() const

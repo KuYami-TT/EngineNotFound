@@ -37,14 +37,6 @@ void enf::SceneManager::LateUpdate()
 	}
 }
 
-void enf::SceneManager::Render()
-{
-	for (const auto& scene : m_ScenesPtr)
-	{
-		scene->Render();
-	}
-}
-
 void enf::SceneManager::CleanUp()
 {
 	for (const auto& scene : m_ScenesPtr)

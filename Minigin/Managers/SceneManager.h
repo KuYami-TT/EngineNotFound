@@ -16,7 +16,6 @@ namespace enf
 		void FixedUpdate();
 		void Update();
 		void LateUpdate();
-		void Render();
 		void CleanUp();
 
 	private:

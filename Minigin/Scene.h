@@ -1,9 +1,9 @@
 #pragma once
+#include "GameObject.h"
 #include "Managers/SceneManager.h"
 
 namespace enf
 {
-	class GameObject;
 	class Scene final
 	{
 	public:
@@ -14,15 +14,14 @@ namespace enf
 		Scene& operator=(Scene&& other) = delete;
 		Scene& operator=(const Scene& other) = delete;
 
-		void Add(std::shared_ptr<GameObject> objectPtr);
-		void Remove(const std::shared_ptr<GameObject>& objectPtr);
+		GameObject* AddGameObject(const ::std::string& name, const glm::vec3& pos = glm::vec3{ 0, 0, 0 });
+		void Remove(const std::unique_ptr<GameObject>& objectPtr);
 		void RemoveAll();
 
 		void Awake();
 		void FixedUpdate();
 		void Update();
 		void LateUpdate();
-		void Render() const;
 		void CleanUp();
 
 	private:
@@ -31,7 +30,7 @@ namespace enf
 		friend Scene& SceneManager::CreateScene(const std::string& name);
 
 		std::string m_Name;
-		std::vector < std::shared_ptr<GameObject>> m_ObjectsPtr{};
+		std::vector <std::unique_ptr<GameObject>> m_ObjectsPtr{};
 
 		static unsigned int m_IdCounter; 
 	};
