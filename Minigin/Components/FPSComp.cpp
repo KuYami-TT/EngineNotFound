@@ -27,7 +27,7 @@ void enf::FPSComp::Update()
 
 	if(m_NeedsUpdate)
 	{
-		m_Timer -= static_cast<double>(m_UpdateDelay);
+		m_Timer -= m_UpdateDelay;
 
 		std::stringstream textBuffer;
 		textBuffer << std::fixed << std::setprecision(m_Precision) << GetAverageFps();
@@ -41,7 +41,7 @@ void enf::FPSComp::Update()
 
 	m_TotalFPS.push_back(game_time::FPS());
 	m_Timer += game_time::Delta();
-	m_NeedsUpdate = m_Timer > static_cast<double>(m_UpdateDelay);
+	m_NeedsUpdate = m_Timer > m_UpdateDelay;
 }
 
 void enf::FPSComp::SetPrecision(int newPrecision)
@@ -49,7 +49,7 @@ void enf::FPSComp::SetPrecision(int newPrecision)
 	m_Precision = newPrecision;
 }
 
-double enf::FPSComp::GetAverageFps()
+float enf::FPSComp::GetAverageFps()
 {
 	if (m_TotalFPS.size() < 2)
 		return game_time::FPS();
@@ -62,5 +62,5 @@ double enf::FPSComp::GetAverageFps()
 	if (m_TotalFPS.empty())
 		return game_time::FPS();
 
-	return std::accumulate(m_TotalFPS.begin(), m_TotalFPS.end(), 0.) / static_cast<double>(m_TotalFPS.size());
+	return std::accumulate(m_TotalFPS.begin(), m_TotalFPS.end(), 0.f) / static_cast<float>(m_TotalFPS.size());
 }

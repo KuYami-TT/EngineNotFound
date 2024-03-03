@@ -1,5 +1,4 @@
 #include "OrbitComp.h"
-
 #include "GameObject.h"
 #include "glm/trigonometric.hpp"
 #include "glm/vec3.hpp"

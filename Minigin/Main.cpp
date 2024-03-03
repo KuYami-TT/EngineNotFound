@@ -52,7 +52,7 @@ void DemoScene()
 	const auto cacodemon00 = scene.AddGameObject("Cacodemon_72x72");
 	cacodemon00->SetParent(cacodemonMain);
 	cacodemon00->AddComponent<SpriteRenderComp>("Cacodemon_72x72.png");
-	cacodemon00->AddComponent<OrbitComp>(1.f, 200.f)->SetAngle(45);
+	cacodemon00->AddComponent<OrbitComp>(-1.f, 200.f)->SetAngle(45);
 
 	const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
 	cacodemon01->SetParent(cacodemon00);
