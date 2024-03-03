@@ -38,8 +38,6 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Managers/ResourceManager.h
   Minigin/Managers/InputManager.cpp
   Minigin/Managers/InputManager.h
-  Minigin/Components/TransformComp.cpp
-  Minigin/Components/TransformComp.h
   Minigin/Components/RenderComp.cpp
   Minigin/Components/RenderComp.h
   Minigin/Components/SpriteRenderComp.cpp
@@ -48,6 +46,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/TextRenderComp.h 
   Minigin/Components/FPSComp.cpp
   Minigin/Components/FPSComp.h 
+  Minigin/Components/OrbitComp.cpp
+  Minigin/Components/OrbitComp.h
 )
 
 # enable c++20 features
