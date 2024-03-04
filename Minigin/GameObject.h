@@ -88,13 +88,13 @@ namespace enf
 		std::string m_Name{};
 		std::vector<std::unique_ptr<Component>> m_ComponentsPtr{};
 		bool m_Delete{};
+		
+		glm::vec3 m_WorldPos{};
+		glm::vec3 m_LocalPos{};
+		bool m_PosDirty{};
 
 		GameObject* m_ParentPtr{};
 		std::vector<GameObject*> m_ChildrenPtrVec{};
-
-		glm::vec3 m_LocalPos{};
-		glm::vec3 m_WorldPos{};
-		bool m_PosDirty{};
 
 		void AddChild(GameObject* child);
 		void RemoveChild(GameObject* child);

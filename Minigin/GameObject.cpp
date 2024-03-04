@@ -50,12 +50,14 @@ void enf::GameObject::LateUpdate()
 
 void enf::GameObject::SetParent(GameObject* parent, bool keepWorldPos)
 {
-	if (parent == this) {
+	if (parent == this) 
+	{
 		assert(false && "Error: GameObject cannot be its own parent");
 		return;
 	}
 
-	if (IsChild(parent)) {
+	if (IsChild(parent)) 
+	{
 		assert(false && "Error: Child cannot be set as parent");
 		return;
 	}
