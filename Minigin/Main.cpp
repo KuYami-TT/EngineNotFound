@@ -25,7 +25,7 @@ using namespace enf;
 
 void DemoScene()
 {
-	auto& scene = SceneManager::GetInstance().CreateScene("Demo");
+	auto& scene = SceneManager::Get().CreateScene("Demo");
 
 	auto object = scene.AddGameObject("background");
 	object->AddComponent<SpriteRenderComp>("background.tga");
@@ -34,11 +34,11 @@ void DemoScene()
 	object->AddComponent<SpriteRenderComp>("logo.tga");
 
 	object = scene.AddGameObject("title", glm::vec3{ 250.f, 20.f, 0.f });
-	const auto titleFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 26);
+	const auto titleFont = ResourceManager::Get().LoadFont("Lingua.otf", 26);
 	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
 
 	object = scene.AddGameObject("fps", glm::vec3{ 10.f, 20.f, 0.f });
-	const auto fpsFont = ResourceManager::GetInstance().LoadFont("Lingua.otf", 20);
+	const auto fpsFont = ResourceManager::Get().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
 
 	//Cacodemons c:<

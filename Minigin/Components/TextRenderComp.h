@@ -27,7 +27,7 @@ namespace enf
 	private:
 		std::string m_Text;
 		std::shared_ptr<Font> m_FontPtr;
-
 		bool m_Dirty;
+
 	};
 }

@@ -38,7 +38,7 @@ void enf::TextRenderComp::SetText(const std::string& text)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surfPtr);
+	auto texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surfPtr);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());

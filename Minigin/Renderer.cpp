@@ -4,9 +4,11 @@
 
 #include <algorithm>
 
+#include "GUI.h"
 #include "Texture2D.h"
 #include "Components/RenderComp.h"
 #include "glm/vec3.hpp"
+#include "imgui-docking/imgui.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -46,6 +48,8 @@ void enf::Renderer::Update()
 
 void enf::Renderer::Render() const
 {
+	GUI::Get().BeginFrame();
+
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_RendererPtr, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_RendererPtr);
@@ -58,7 +62,17 @@ void enf::Renderer::Render() const
 		const glm::vec3& pos = comp->GetOwner()->GetWorldPos();
 		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
 	}
-	
+
+	ImGui::Begin("Window");
+	ImGui::Text("Hello world!");
+	ImGui::End();
+
+	ImGui::Begin("Other window");
+	ImGui::Text("Bye world!");
+	ImGui::End();
+
+	GUI::Get().EndFrame();
+
 	SDL_RenderPresent(m_RendererPtr);
 }
 

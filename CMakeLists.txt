@@ -15,21 +15,24 @@ endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Font.cpp
-  Minigin/Font.h
-  Minigin/GameObject.cpp
-  Minigin/GameObject.h
   Minigin/Main.cpp
   Minigin/Minigin.cpp
   Minigin/Minigin.h
   Minigin/Renderer.cpp
   Minigin/Renderer.h
+  Minigin/GameObject.cpp
+  Minigin/GameObject.h
   Minigin/Scene.cpp
   Minigin/Scene.h
+  Minigin/Font.cpp
+  Minigin/Font.h
   Minigin/Texture2D.cpp
   Minigin/Texture2D.h
-  Minigin/Component.h
   Minigin/Component.cpp
+  Minigin/Component.h
+  Minigin/GUI.cpp
+  Minigin/GUI.h 
+
   Minigin/Managers/GameTime.cpp
   Minigin/Managers/GameTime.h
   Minigin/Managers/SceneManager.cpp
@@ -38,6 +41,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Managers/ResourceManager.h
   Minigin/Managers/InputManager.cpp
   Minigin/Managers/InputManager.h
+
   Minigin/Components/RenderComp.cpp
   Minigin/Components/RenderComp.h
   Minigin/Components/SpriteRenderComp.cpp
@@ -48,6 +52,13 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/FPSComp.h 
   Minigin/Components/OrbitComp.cpp
   Minigin/Components/OrbitComp.h
+
+  External/imgui-docking/imgui.cpp
+  External/imgui-docking/imgui_draw.cpp
+  External/imgui-docking/imgui_widgets.cpp
+  External/imgui-docking/imgui_tables.cpp
+  External/imgui-docking/backends/imgui_impl_sdl2.cpp
+  External/imgui-docking/backends/imgui_impl_sdlrenderer2.cpp
 )
 
 # enable c++20 features
@@ -147,7 +158,8 @@ if (WIN32)
     ${VLD_INCLUDE_DIR}
     ${SDL2_INCLUDE_DIR} 
     ${SDL2_IMAGE_INCLUDE_DIR} 
-    ${SDL2_TTF_INCLUDE_DIR})
+    ${SDL2_TTF_INCLUDE_DIR}
+   )
   
   # set libraries to link with
   target_link_libraries(${TARGET_NAME} PUBLIC
@@ -201,6 +213,7 @@ endif()
 target_include_directories(${TARGET_NAME} PRIVATE
   ${CMAKE_SOURCE_DIR}/Minigin/
   ${glm_SOURCE_DIR}
+  External
 )
 
 # compile at max warning level + treat warnings as errors

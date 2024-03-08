@@ -14,6 +14,7 @@
 
 #include <thread>
 
+#include "GUI.h"
 #include "Managers/GameTime.h"
 #include "Managers/InputManager.h"
 #include "Managers/SceneManager.h"
@@ -91,13 +92,15 @@ enf::Minigin::Minigin(const std::filesystem::path &dataPath)
 		throw std::runtime_error(std::string("SDL_CreateWindow Error: ") + SDL_GetError());
 	}
 
-	Renderer::GetInstance().Init(g_window);
-	ResourceManager::GetInstance().Init(dataPath);
+	Renderer::Get().Init(g_window);
+	GUI::Get().Init(g_window, Renderer::Get().GetSDLRenderer());
+	ResourceManager::Get().Init(dataPath);
 }
 
 enf::Minigin::~Minigin()
 {
-	Renderer::GetInstance().Destroy();
+	GUI::Get().Destroy();
+	Renderer::Get().Destroy();
 	SDL_DestroyWindow(g_window);
 	g_window = nullptr;
 	SDL_Quit();
@@ -118,19 +121,19 @@ void enf::Minigin::RunOneFrame()
 {
 	game_time::UpdateDelta();
 
-	m_Quit = !InputManager::GetInstance().ProcessInput();
+	m_Quit = !InputManager::Get().ProcessInput();
 
 	m_Lag += game_time::Delta();
 	while (m_Lag >= game_time::FixedDelta())
 	{
 		m_Lag -= game_time::FixedDelta();
-		SceneManager::GetInstance().FixedUpdate();
+		SceneManager::Get().FixedUpdate();
 	}
 
-	SceneManager::GetInstance().Update();
-	SceneManager::GetInstance().LateUpdate();
-	Renderer::GetInstance().Render();
-	SceneManager::GetInstance().CleanUp();
+	SceneManager::Get().Update();
+	SceneManager::Get().LateUpdate();
+	Renderer::Get().Render();
+	SceneManager::Get().CleanUp();
 
 	std::this_thread::sleep_for(game_time::Sleep());
 }

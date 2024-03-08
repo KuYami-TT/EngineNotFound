@@ -21,7 +21,7 @@ void enf::SceneManager::FixedUpdate()
 
 void enf::SceneManager::Update()
 {
-	Renderer::GetInstance().Update();
+	Renderer::Get().Update();
 
 	for(const auto& scene : m_ScenesPtr)
 	{
