@@ -1,16 +1,13 @@
 #include "Widget.h"
 
-#include "imgui-docking/imgui.h"
-
-enf::Widget::Widget(std::string windowName)
-	: m_Name{ std::move(windowName) }
+enf::WidgetWindow* enf::Widget::GetOwner() const
 {
+	return m_OwnerPtr;
 }
 
-void enf::Widget::Render()
+const std::string& enf::Widget::GetName() const
 {
-	ImGui::Begin(m_Name.c_str());
-	ImGui::End();
+	return m_Name;
 }
 
 void enf::Widget::MarkForMurder()
@@ -21,4 +18,14 @@ void enf::Widget::MarkForMurder()
 bool enf::Widget::IsMarked() const
 {
 	return m_Delete;
+}
+
+enf::Widget::Widget(std::string widgetName)
+	: m_Name{std::move(widgetName)}
+{
+}
+
+void enf::Widget::SetOwner(WidgetWindow* ownerPtr)
+{
+	m_OwnerPtr = ownerPtr;
 }

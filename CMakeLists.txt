@@ -32,8 +32,10 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Component.h
   Minigin/GUI.cpp
   Minigin/GUI.h 
+  Minigin/WidgetWindow.cpp
+  Minigin/WidgetWindow.h
   Minigin/Widget.cpp
-  Minigin/Widget.h 
+  Minigin/Widget.h
 
   Minigin/Managers/GameTime.cpp
   Minigin/Managers/GameTime.h
@@ -55,8 +57,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/OrbitComp.cpp
   Minigin/Components/OrbitComp.h
 
-  #Minigin/Widgets/TrashTheCache.cpp
-  #Minigin/Widgets/TrashTheCache.h
+  Minigin/Widgets/TrashTheCache.cpp
+  Minigin/Widgets/TrashTheCache.h
 
   External/imgui-docking/imgui.cpp
   External/imgui-docking/imgui_draw.cpp

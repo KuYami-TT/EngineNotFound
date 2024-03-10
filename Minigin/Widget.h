@@ -3,29 +3,37 @@
 
 namespace enf
 {
-	class Widget final
+	class WidgetWindow;
+
+	class Widget
 	{
+		friend WidgetWindow;
+
 	public:
-		Widget(std::string windowName);
-		~Widget() = default;
+		virtual ~Widget() = default;
 
-		Widget(Widget&& other) = delete;
-		Widget(const Widget& other) = delete;
-		Widget& operator=(Widget&& other) = delete;
-		Widget& operator=(const Widget& other) = delete;
+		Widget( Widget&& other) = delete;
+		Widget(const  Widget& other) = delete;
+		Widget& operator=( Widget&& other) = delete;
+		Widget& operator=(const  Widget& other) = delete;
 
-		[[nodiscard]] const std::string& GetName() const { return m_Name; }
+		[[nodiscard]] WidgetWindow* GetOwner() const;
+		[[nodiscard]] const std::string& GetName() const;
 
-		void Render();
+		virtual inline void Render() {}
 
 		//Mark for deletion
 		void MarkForMurder();
 		[[nodiscard]] bool IsMarked() const;
 
 	protected:
-		std::string m_Name{};
+		Widget(std::string widgetName);
 
 	private:
+		WidgetWindow* m_OwnerPtr{};
+		std::string m_Name{};
 		bool m_Delete{};
+
+		void SetOwner(WidgetWindow* ownerPtr);
 	};
 }

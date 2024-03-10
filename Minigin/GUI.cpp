@@ -25,9 +25,9 @@ void enf::GUI::Render()
 {
 	BeginFrame();
 
-	for (auto&& widget : m_WidgetsPtr)
+	for (auto&& widgetWindow : m_WidgetsWindowPtr)
 	{
-		widget->Render();
+		widgetWindow->Render();
 	}
 
 	EndFrame();
@@ -53,30 +53,50 @@ void enf::GUI::Destroy()
 	ImGui::DestroyContext();
 }
 
-enf::Widget* enf::GUI::AddWidget(const std::string& windowName)
+enf::WidgetWindow* enf::GUI::AddWidgetWindow(const std::string& windowName)
 {
 	if(HasWindow(windowName))
 		return nullptr;
 
-	const auto& newWidgetPtr = m_WidgetsPtr.emplace_back(std::make_unique<Widget>(windowName));
+	const auto& newWidgetPtr = m_WidgetsWindowPtr.emplace_back(std::make_unique<WidgetWindow>(windowName));
 	
 	return newWidgetPtr.get();
 }
 
+enf::WidgetWindow* enf::GUI::GetWidgetWindow(const std::string& windowName)
+{
+	const auto& foundWindow = 
+		std::ranges::find_if(m_WidgetsWindowPtr,
+			[&](const std::unique_ptr<WidgetWindow>& widgetWindow)->bool
+			{
+				return widgetWindow->GetName() == windowName;
+			});
+
+	if (foundWindow == m_WidgetsWindowPtr.end())
+		return nullptr;
+
+	return foundWindow->get();
+}
+
 bool enf::GUI::HasWindow(const std::string& windowName)
 {
-	return std::ranges::any_of(m_WidgetsPtr,
-		[&](const std::unique_ptr<Widget>& widget)->bool
+	return std::ranges::any_of(m_WidgetsWindowPtr,
+		[&](const std::unique_ptr<WidgetWindow>& widgetWindow)->bool
 		{
-			return widget->GetName() == windowName;
+			return widgetWindow->GetName() == windowName;
 		});
 }
 
 void enf::GUI::CheckToMurder()
 {
-	std::erase_if(m_WidgetsPtr, 
-		[](const std::unique_ptr<Widget>& widget)
+	for (auto&& widget : m_WidgetsWindowPtr)
+	{
+		widget->CheckToMurder();
+	}
+
+	std::erase_if(m_WidgetsWindowPtr, 
+		[](const std::unique_ptr<WidgetWindow>& widgetWindow)->bool
 		{
-			return widget->IsMarked();
+			return widgetWindow->IsMarked();
 		});
 }

@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Singleton.h"
-#include "Widget.h"
+#include "WidgetWindow.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
@@ -14,12 +14,6 @@ namespace enf
 	* Simple RAII wrapper for the ImGUI renderer
 	* Inspired by mat with no hat
 	*/
-	template<typename WidgetType>
-	concept IWidget = requires(WidgetType c)
-	{
-		{ std::derived_from<WidgetType, Widget> };
-	};
-
 	class GUI final : public Singleton<GUI>
 	{
 	public:
@@ -35,13 +29,14 @@ namespace enf
 		void Render();
 		void Destroy();
 
-		Widget* AddWidget(const std::string& windowName);
+		WidgetWindow* AddWidgetWindow(const std::string& windowName);
+		WidgetWindow* GetWidgetWindow(const std::string& windowName);
 
-		//Delete components that are marked for deletion 
+		//Delete WidgetWindows that are marked for deletion 
 		void CheckToMurder();
 
 	private:
-		std::vector<std::unique_ptr<Widget>> m_WidgetsPtr{};
+		std::vector<std::unique_ptr<WidgetWindow>> m_WidgetsWindowPtr{};
 
 		bool HasWindow(const std::string& windowName);
 

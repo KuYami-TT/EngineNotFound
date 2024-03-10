@@ -3,7 +3,7 @@
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
-//#include <vld.h>
+#include <vld.h>
 #endif
 #endif
 
@@ -20,6 +20,7 @@
 #include "Managers/ResourceManager.h"
 #include "Components/SpriteRenderComp.h"
 #include "Components/TextRenderComp.h"
+#include "Widgets/TrashTheCache.h"
 
 namespace fs = std::filesystem;
 using namespace enf;
@@ -27,9 +28,8 @@ using namespace enf;
 void DemoScene()
 {
 	// todo: make widgetComponents
-	GUI::Get().AddWidget("window00");
-	GUI::Get().AddWidget("window01");
-	GUI::Get().AddWidget("window02");
+	const auto window00 = GUI::Get().AddWidgetWindow("Exercise 2");
+	window00->AddWidget<TrashTheCache>("Graph Exercise 2");
 
 	auto& scene = SceneManager::Get().GetSceneByName("Demo");
 
@@ -46,6 +46,8 @@ void DemoScene()
 	object = scene.AddGameObject("fps", glm::vec3{ 10.f, 20.f, 0.f });
 	const auto fpsFont = ResourceManager::Get().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
+
+	GUI::Get().GetWidgetWindow("Exercise 2")->MarkForMurder();
 
 	//Cacodemons c:<
 	const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
