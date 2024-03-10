@@ -1,12 +1,16 @@
 #pragma once
+#include <memory>
+#include <string>
+#include <vector>
+
 #include "GameObject.h"
-#include "Managers/SceneManager.h"
 
 namespace enf
 {
 	class Scene final
 	{
 	public:
+		explicit Scene(std::string name);
 		~Scene() = default;
 
 		Scene(Scene&& other) = delete;
@@ -18,6 +22,8 @@ namespace enf
 		void Remove(const std::unique_ptr<GameObject>& objectPtr);
 		void RemoveAll();
 
+		[[nodiscard]] inline const std::string& GetName() const { return m_Name; }
+
 		void Awake();
 		void FixedUpdate();
 		void Update();
@@ -25,12 +31,8 @@ namespace enf
 		void CleanUp();
 
 	private:
-		explicit Scene(std::string name);
-
-		friend Scene& SceneManager::CreateScene(const std::string& name);
-
 		std::string m_Name;
-		std::vector <std::unique_ptr<GameObject>> m_ObjectsPtr{};
+		std::vector<std::unique_ptr<GameObject>> m_ObjectsPtr{};
 
 		static unsigned int m_IdCounter; 
 	};

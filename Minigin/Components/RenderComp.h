@@ -4,7 +4,7 @@
 
 #include "Component.h"
 #include "GameObject.h"
-#include "Renderer.h"
+#include "Texture2D.h"
 
 namespace enf
 {
@@ -23,11 +23,11 @@ namespace enf
 
 		void Awake() override;
 
+		[[nodiscard]] inline Texture2D* GetTexturePtr() const { return m_TexturePtr; }
 		[[nodiscard]] inline float GetRenderDepth() const { return GetOwner()->GetLocalPos().z; }
-		[[nodiscard]] inline std::shared_ptr<Texture2D> GetTexturePtr() const { return m_TexturePtr; }
 
 	protected:
-		std::shared_ptr<Texture2D> m_TexturePtr{};
+		Texture2D* m_TexturePtr{};
 
 	private:
 		Renderer* m_RendererPtr{};

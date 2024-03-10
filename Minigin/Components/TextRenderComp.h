@@ -3,16 +3,14 @@
 #include <string>
 
 #include "RenderComp.h"
+#include "Font.h"
 
 namespace enf
 {
-	class Font;
-	class Texture2D;
-
 	class TextRenderComp final : public RenderComp
 	{
 	public:
-		TextRenderComp(std::shared_ptr<Font> fontPtr, std::string text = {});
+		TextRenderComp(Font* fontPtr, std::string text = {});
 		~TextRenderComp() override = default;
 
 		TextRenderComp(TextRenderComp&& other) = delete;
@@ -26,8 +24,8 @@ namespace enf
 
 	private:
 		std::string m_Text;
-		std::shared_ptr<Font> m_FontPtr;
+		Font* m_FontPtr;
+		std::unique_ptr<Texture2D> m_TextTexturePtr{};
 		bool m_Dirty;
-
 	};
 }

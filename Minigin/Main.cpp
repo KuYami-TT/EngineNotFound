@@ -25,7 +25,7 @@ using namespace enf;
 
 void DemoScene()
 {
-	auto& scene = SceneManager::Get().CreateScene("Demo");
+	auto& scene = SceneManager::Get().GetSceneByName("Demo");
 
 	auto object = scene.AddGameObject("background");
 	object->AddComponent<SpriteRenderComp>("background.tga");
@@ -67,6 +67,8 @@ void DemoScene()
 
 void load()
 {
+	SceneManager::Get().CreateScene("Demo");
+
 	DemoScene();
 }
 

@@ -3,16 +3,16 @@
 #include <memory>
 
 #include "../Component.h"
+#include "Font.h"
 
 namespace enf
 {
 	class TextRenderComp;
-	class Font;
 
 	class FPSComp final : public Component
 	{
 	public:
-		FPSComp(std::shared_ptr<Font> fontPtr);
+		FPSComp(Font* fontPtr);
 		~FPSComp() override = default;
 
 		FPSComp(FPSComp&& other) = delete;
@@ -31,7 +31,7 @@ namespace enf
 		float m_UpdateDelay{ .5f };
 		float m_Timer{};
 		TextRenderComp* m_TextRenderCompPtr{};
-		std::shared_ptr<Font> m_FontPtr;
+		Font* m_FontPtr;
 
 		std::deque<float> m_TotalFPS{};
 

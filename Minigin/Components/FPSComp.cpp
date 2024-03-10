@@ -8,10 +8,10 @@
 #include "GameObject.h"
 #include "TextRenderComp.h"
 
-enf::FPSComp::FPSComp(std::shared_ptr<Font> fontPtr) :
+enf::FPSComp::FPSComp(Font* fontPtr) :
 	Component(),
 	m_NeedsUpdate{true},
-	m_FontPtr{std::move(fontPtr)}
+	m_FontPtr{fontPtr}
 {
 }
 
