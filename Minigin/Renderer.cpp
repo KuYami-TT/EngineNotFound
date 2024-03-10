@@ -48,8 +48,6 @@ void enf::Renderer::Update()
 
 void enf::Renderer::Render() const
 {
-	GUI::Get().BeginFrame();
-
 	const auto& color = GetBackgroundColor();
 	SDL_SetRenderDrawColor(m_RendererPtr, color.r, color.g, color.b, color.a);
 	SDL_RenderClear(m_RendererPtr);
@@ -63,15 +61,7 @@ void enf::Renderer::Render() const
 		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
 	}
 
-	ImGui::Begin("Window");
-	ImGui::Text("Hello world!");
-	ImGui::End();
-
-	ImGui::Begin("Other window");
-	ImGui::Text("Bye world!");
-	ImGui::End();
-
-	GUI::Get().EndFrame();
+	GUI::Get().Render();
 
 	SDL_RenderPresent(m_RendererPtr);
 }

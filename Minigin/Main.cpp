@@ -13,6 +13,7 @@
 #include "Minigin.h"
 #include "Scene.h"
 #include "GameObject.h"
+#include "GUI.h"
 #include "Components/FPSComp.h"
 #include "Components/OrbitComp.h"
 #include "Managers/SceneManager.h"
@@ -25,6 +26,11 @@ using namespace enf;
 
 void DemoScene()
 {
+	// todo: make widgetComponents
+	GUI::Get().AddWidget("window00");
+	GUI::Get().AddWidget("window01");
+	GUI::Get().AddWidget("window02");
+
 	auto& scene = SceneManager::Get().GetSceneByName("Demo");
 
 	auto object = scene.AddGameObject("background");

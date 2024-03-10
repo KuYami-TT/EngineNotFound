@@ -43,7 +43,7 @@ namespace enf
 
 		void SetLocalPos(const glm::vec3& pos);
 
-		//Mark for deletion
+		// Mark for deletion
 		void MarkForMurder();
 		[[nodiscard]] bool IsMarked() const;
 
