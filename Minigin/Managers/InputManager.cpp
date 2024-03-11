@@ -1,7 +1,7 @@
 #include <SDL.h>
 #include "InputManager.h"
 
-#include "imgui-docking/backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdl2.h"
 
 bool enf::InputManager::ProcessInput()
 {

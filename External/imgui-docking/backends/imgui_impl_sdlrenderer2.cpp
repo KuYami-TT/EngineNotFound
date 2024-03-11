@@ -29,7 +29,7 @@
 //  2021-10-06: Backup and restore modified ClipRect/Viewport.
 //  2021-09-21: Initial version.
 
-#include "imgui-docking/imgui.h"
+#include "imgui.h"
 #ifndef IMGUI_DISABLE
 #include "imgui_impl_sdlrenderer2.h"
 #include <stdint.h>     // intptr_t

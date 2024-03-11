@@ -8,7 +8,7 @@
 #include "Texture2D.h"
 #include "Components/RenderComp.h"
 #include "glm/vec3.hpp"
-#include "imgui-docking/imgui.h"
+#include "imgui.h"
 
 int GetOpenGLDriverIndex()
 {

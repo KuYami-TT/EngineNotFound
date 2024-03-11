@@ -59,14 +59,23 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
 
   Minigin/Widgets/TrashTheCache.cpp
   Minigin/Widgets/TrashTheCache.h
+)
 
+add_library(imgui OBJECT
   External/imgui-docking/imgui.cpp
   External/imgui-docking/imgui_draw.cpp
   External/imgui-docking/imgui_widgets.cpp
   External/imgui-docking/imgui_tables.cpp
   External/imgui-docking/backends/imgui_impl_sdl2.cpp
   External/imgui-docking/backends/imgui_impl_sdlrenderer2.cpp
+
+  External/implot/implot.cpp
+  External/implot/implot_items.cpp
 )
+
+target_include_directories(imgui PRIVATE External/imgui-docking External/implot)
+
+target_link_libraries(${TARGET_NAME} PRIVATE imgui)
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)
@@ -88,6 +97,13 @@ FetchContent_GetProperties(glm)
 if(NOT glm_POPULATED)
   FetchContent_Populate(glm)
 endif()
+
+FetchContent_Declare(fmt
+  GIT_REPOSITORY https://github.com/fmtlib/fmt.git
+  GIT_TAG 10.2.1
+)
+FetchContent_MakeAvailable(fmt)
+target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
 
 # add SDL2
 if (WIN32)
@@ -167,6 +183,13 @@ if (WIN32)
     ${SDL2_IMAGE_INCLUDE_DIR} 
     ${SDL2_TTF_INCLUDE_DIR}
    )
+
+  # imgui also needs sdl2
+  target_include_directories(imgui PRIVATE
+    ${SDL2_INCLUDE_DIR} 
+    ${SDL2_IMAGE_INCLUDE_DIR} 
+    ${SDL2_TTF_INCLUDE_DIR}
+  )
   
   # set libraries to link with
   target_link_libraries(${TARGET_NAME} PUBLIC
@@ -220,7 +243,8 @@ endif()
 target_include_directories(${TARGET_NAME} PRIVATE
   ${CMAKE_SOURCE_DIR}/Minigin/
   ${glm_SOURCE_DIR}
-  External
+  External/imgui-docking
+  External/implot
 )
 
 # compile at max warning level + treat warnings as errors

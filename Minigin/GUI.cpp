@@ -2,9 +2,10 @@
 
 #include <algorithm>
 
-#include "imgui-docking/imgui.h"
-#include "imgui-docking/backends/imgui_impl_sdl2.h"
-#include "imgui-docking/backends/imgui_impl_sdlrenderer2.h"
+#include "imgui.h"
+#include "implot.h"
+#include "backends/imgui_impl_sdl2.h"
+#include "backends/imgui_impl_sdlrenderer2.h"
 
 void enf::GUI::Init(SDL_Window* windowPtr, SDL_Renderer* rendererPtr)
 {
@@ -19,6 +20,8 @@ void enf::GUI::Init(SDL_Window* windowPtr, SDL_Renderer* rendererPtr)
 
 	ImGui_ImplSDL2_InitForSDLRenderer(windowPtr, rendererPtr);
 	ImGui_ImplSDLRenderer2_Init(rendererPtr);
+
+	ImPlot::CreateContext();
 }
 
 void enf::GUI::Render()
@@ -48,6 +51,8 @@ void enf::GUI::EndFrame() const
 
 void enf::GUI::Destroy()
 {
+	ImPlot::DestroyContext();
+
 	ImGui_ImplSDLRenderer2_Shutdown();
 	ImGui_ImplSDL2_Shutdown();
 	ImGui::DestroyContext();

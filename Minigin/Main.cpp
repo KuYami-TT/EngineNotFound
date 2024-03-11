@@ -27,7 +27,6 @@ using namespace enf;
 
 void DemoScene()
 {
-	// todo: make widgetComponents
 	const auto window00 = GUI::Get().AddWidgetWindow("Exercise 2");
 	window00->AddWidget<TrashTheCache>("Graph Exercise 2");
 
@@ -46,8 +45,6 @@ void DemoScene()
 	object = scene.AddGameObject("fps", glm::vec3{ 10.f, 20.f, 0.f });
 	const auto fpsFont = ResourceManager::Get().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
-
-	GUI::Get().GetWidgetWindow("Exercise 2")->MarkForMurder();
 
 	//Cacodemons c:<
 	const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });

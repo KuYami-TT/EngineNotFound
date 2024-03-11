@@ -2,7 +2,7 @@
 
 #include <algorithm>
 
-#include "imgui-docking/imgui.h"
+#include "imgui.h"
 
 enf::WidgetWindow::WidgetWindow(std::string windowName)
 	: m_Name{ std::move(windowName) }
