@@ -1,7 +1,5 @@
 #include "Component.h"
 
-#include "GameObject.h"
-
 void enf::Component::SetOwner(GameObject* ownerPtr)
 {
 	m_OwnerPtr = ownerPtr;

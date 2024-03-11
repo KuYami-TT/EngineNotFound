@@ -1,7 +1,8 @@
 #include "SceneManager.h"
 
+#include <stdexcept>
+
 #include "Renderer.h"
-#include "Scene.h"
 
 void enf::SceneManager::Awake()
 {
@@ -21,7 +22,7 @@ void enf::SceneManager::FixedUpdate()
 
 void enf::SceneManager::Update()
 {
-	Renderer::GetInstance().Update();
+	Renderer::Get().Update();
 
 	for(const auto& scene : m_ScenesPtr)
 	{
@@ -45,9 +46,19 @@ void enf::SceneManager::CleanUp()
 	}
 }
 
-enf::Scene& enf::SceneManager::CreateScene(const std::string& name)
+void enf::SceneManager::CreateScene(const std::string& name)
 {
-	const auto& scene = std::shared_ptr<Scene>(new Scene(name));
-	m_ScenesPtr.push_back(scene);
-	return *scene;
+	m_ScenesPtr.push_back(std::make_unique<Scene>(name));
+}
+
+enf::Scene& enf::SceneManager::GetSceneByName(const std::string& name) const
+{
+	for (const auto& scene : m_ScenesPtr)
+	{
+		if (scene->GetName() == name)
+		{
+			return *scene;
+		}
+	}
+	throw std::runtime_error("Scene not found");
 }

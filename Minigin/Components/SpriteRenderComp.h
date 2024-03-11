@@ -5,8 +5,6 @@
 
 namespace enf
 {
-	class Texture2D;
-
 	class SpriteRenderComp final : public RenderComp
 	{
 	public:

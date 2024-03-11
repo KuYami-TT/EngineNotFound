@@ -3,6 +3,7 @@
 
 #include <algorithm>
 
+#include "GUI.h"
 
 using namespace enf;
 
@@ -83,4 +84,6 @@ void Scene::CleanUp()
 	{
 		object->CheckToMurder();
 	}
+
+	GUI::Get().CheckToMurder();
 }

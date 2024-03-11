@@ -8,6 +8,6 @@ enf::RenderComp::~RenderComp()
 
 void enf::RenderComp::Awake()
 {
-	m_RendererPtr = &Renderer::GetInstance();
+	m_RendererPtr = &Renderer::Get();
 	m_RendererPtr->AddToRenderList(this);
 }

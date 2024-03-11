@@ -2,16 +2,15 @@
 #include <utility>
 
 #include "TextRenderComp.h"
-#include "Font.h"
 #include "Renderer.h"
 #include "SDL_surface.h"
 #include "SDL_ttf.h"
 #include "Texture2D.h"
 
-enf::TextRenderComp::TextRenderComp(std::shared_ptr<Font> fontPtr, std::string text) :
+enf::TextRenderComp::TextRenderComp(Font* fontPtr, std::string text) :
 	RenderComp(),
 	m_Text{std::move(text)},
-	m_FontPtr{std::move(fontPtr)},
+	m_FontPtr{fontPtr},
 	m_Dirty{true}
 {
 }
@@ -38,12 +37,13 @@ void enf::TextRenderComp::SetText(const std::string& text)
 	{
 		throw std::runtime_error(std::string("Render text failed: ") + SDL_GetError());
 	}
-	auto texture = SDL_CreateTextureFromSurface(Renderer::GetInstance().GetSDLRenderer(), surfPtr);
+	auto texture = SDL_CreateTextureFromSurface(Renderer::Get().GetSDLRenderer(), surfPtr);
 	if (texture == nullptr)
 	{
 		throw std::runtime_error(std::string("Create text texture from surface failed: ") + SDL_GetError());
 	}
 	SDL_FreeSurface(surfPtr);
-	m_TexturePtr = std::make_shared<Texture2D>(texture);
+	m_TextTexturePtr = std::make_unique<Texture2D>(texture);
+	m_TexturePtr = m_TextTexturePtr.get();
 	m_Dirty = false;
 }

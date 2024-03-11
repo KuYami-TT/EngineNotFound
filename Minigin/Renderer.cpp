@@ -4,9 +4,11 @@
 
 #include <algorithm>
 
+#include "GUI.h"
 #include "Texture2D.h"
 #include "Components/RenderComp.h"
 #include "glm/vec3.hpp"
+#include "imgui.h"
 
 int GetOpenGLDriverIndex()
 {
@@ -58,7 +60,9 @@ void enf::Renderer::Render() const
 		const glm::vec3& pos = comp->GetOwner()->GetWorldPos();
 		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
 	}
-	
+
+	GUI::Get().Render();
+
 	SDL_RenderPresent(m_RendererPtr);
 }
 

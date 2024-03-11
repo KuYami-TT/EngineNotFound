@@ -8,5 +8,4 @@ namespace enf
 	public:
 		bool ProcessInput();
 	};
-
 }
