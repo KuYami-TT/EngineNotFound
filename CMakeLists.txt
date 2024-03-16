@@ -101,9 +101,18 @@ endif()
 FetchContent_Declare(fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG 10.2.1
+  GIT_PROGRESS TRUE
 )
 FetchContent_MakeAvailable(fmt)
-target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
+
+FetchContent_Declare(
+  glm
+  GIT_REPOSITORY https://github.com/g-truc/glm.git
+  GIT_TAG        1.0.1 # Specify the version you need
+  GIT_PROGRESS TRUE
+)
+FetchContent_MakeAvailable(glm)
+
 
 # add SDL2
 if (WIN32)
@@ -246,6 +255,10 @@ target_include_directories(${TARGET_NAME} PRIVATE
   External/imgui-docking
   External/implot
 )
+
+# set the working directory to the directory with the source files
+target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
+target_link_libraries(${TARGET_NAME} PRIVATE glm)
 
 # compile at max warning level + treat warnings as errors
 target_compile_options(${TARGET_NAME} PRIVATE
