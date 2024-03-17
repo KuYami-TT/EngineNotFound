@@ -3,23 +3,27 @@
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
-//#include <vld.h>
+//include <vld.h>
 #endif
 #endif
 
 #include <filesystem>
 
+#include "Action.h"
 #include "glm/vec3.hpp"
 #include "Minigin.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "GUI.h"
+#include "InputMap.h"
+#include "Commands/PrintCommand.h"
 #include "Components/FPSComp.h"
 #include "Components/OrbitComp.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
 #include "Components/SpriteRenderComp.h"
 #include "Components/TextRenderComp.h"
+#include "Managers/InputManager.h"
 #include "Widgets/TrashTheCache.h"
 
 namespace fs = std::filesystem;
@@ -47,27 +51,36 @@ void DemoScene()
 	object->AddComponent<FPSComp>(fpsFont);
 
 	//Cacodemons c:<
-	const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
+	//const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
+	//
+	//const auto cacodemonMain = scene.AddGameObject("Cacodemon_96x96");
+	//cacodemonMain->SetParent(pivotPoint);
+	//cacodemonMain->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+	//cacodemonMain->AddComponent<OrbitComp>(0.5f, 40.f)->SetAngle(112.f);
+	//
+	//const auto cacodemon00 = scene.AddGameObject("Cacodemon_72x72");
+	//cacodemon00->SetParent(cacodemonMain);
+	//cacodemon00->AddComponent<SpriteRenderComp>("Cacodemon_72x72.png");
+	//cacodemon00->AddComponent<OrbitComp>(-1.f, 200.f)->SetAngle(45.f);
+	//
+	//const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
+	//cacodemon01->SetParent(cacodemon00);
+	//cacodemon01->AddComponent<SpriteRenderComp>("Cacodemon_48x48.png");
+	//cacodemon01->AddComponent<OrbitComp>(6.f, 80.f)->SetAngle(240.f);
+	//
+	//const auto cacodemon02 = scene.AddGameObject("cacodemon_36x36");
+	//cacodemon02->SetParent(cacodemon01);
+	//cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
+	//cacodemon02->AddComponent<OrbitComp>(12.f, 40.f)->SetAngle(85.f);
 
-	const auto cacodemonMain = scene.AddGameObject("Cacodemon_96x96");
-	cacodemonMain->SetParent(pivotPoint);
-	cacodemonMain->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
-	cacodemonMain->AddComponent<OrbitComp>(0.5f, 40.f)->SetAngle(112.f);
+	const auto possessedCacodemon = scene.AddGameObject("Cacodemon_96x96", glm::vec3{ 100, 100, 10 });
+	possessedCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
 
-	const auto cacodemon00 = scene.AddGameObject("Cacodemon_72x72");
-	cacodemon00->SetParent(cacodemonMain);
-	cacodemon00->AddComponent<SpriteRenderComp>("Cacodemon_72x72.png");
-	cacodemon00->AddComponent<OrbitComp>(-1.f, 200.f)->SetAngle(45.f);
-
-	const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
-	cacodemon01->SetParent(cacodemon00);
-	cacodemon01->AddComponent<SpriteRenderComp>("Cacodemon_48x48.png");
-	cacodemon01->AddComponent<OrbitComp>(6.f, 80.f)->SetAngle(240.f);
-
-	const auto cacodemon02 = scene.AddGameObject("cacodemon_36x36");
-	cacodemon02->SetParent(cacodemon01);
-	cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
-	cacodemon02->AddComponent<OrbitComp>(12.f, 40.f)->SetAngle(85.f);
+	//Controller
+	const auto inputMap = InputManager::Get().AddInputMap();
+	inputMap->BindAction<PrintCommand>(Action::InputState::OnTrigger, Action::ControllerLayout::GAMEPAD_DPAD_UP);
+	
+	InputManager::Get().AddController(possessedCacodemon, inputMap);
 }
 
 void load()

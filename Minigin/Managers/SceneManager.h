@@ -3,6 +3,7 @@
 #include <string>
 #include <memory>
 
+#include "InputMap.h"
 #include "Singleton.h"
 #include "Scene.h"
 

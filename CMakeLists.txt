@@ -28,14 +28,13 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Font.h
   Minigin/Texture2D.cpp
   Minigin/Texture2D.h
-  Minigin/Component.cpp
-  Minigin/Component.h
   Minigin/GUI.cpp
   Minigin/GUI.h 
-  Minigin/WidgetWindow.cpp
-  Minigin/WidgetWindow.h
-  Minigin/Widget.cpp
-  Minigin/Widget.h
+  Minigin/Controller.cpp
+  Minigin/Controller.h
+  Minigin/InputMap.h
+  Minigin/Action.cpp
+  Minigin/Action.h
 
   Minigin/Managers/GameTime.cpp
   Minigin/Managers/GameTime.h
@@ -46,6 +45,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Managers/InputManager.cpp
   Minigin/Managers/InputManager.h
 
+  Minigin/Components/Component.cpp
+  Minigin/Components/Component.h
   Minigin/Components/RenderComp.cpp
   Minigin/Components/RenderComp.h
   Minigin/Components/SpriteRenderComp.cpp
@@ -57,8 +58,16 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/OrbitComp.cpp
   Minigin/Components/OrbitComp.h
 
+  Minigin/Widgets/WidgetWindow.cpp
+  Minigin/Widgets/WidgetWindow.h
+  Minigin/Widgets/Widget.cpp
+  Minigin/Widgets/Widget.h
   Minigin/Widgets/TrashTheCache.cpp
   Minigin/Widgets/TrashTheCache.h
+
+  Minigin/Commands/Command.h
+  Minigin/Commands/PrintCommand.cpp
+  Minigin/Commands/PrintCommand.h
 )
 
 add_library(imgui OBJECT
@@ -105,14 +114,7 @@ FetchContent_Declare(fmt
 )
 FetchContent_MakeAvailable(fmt)
 
-FetchContent_Declare(
-  glm
-  GIT_REPOSITORY https://github.com/g-truc/glm.git
-  GIT_TAG        1.0.1 # Specify the version you need
-  GIT_PROGRESS TRUE
-)
-FetchContent_MakeAvailable(glm)
-
+target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
 
 # add SDL2
 if (WIN32)
@@ -185,6 +187,11 @@ if (WIN32)
     endif()
   endif()
 
+SET( XINPUT_LIB XInput )
+target_link_libraries(${TARGET_NAME} PUBLIC
+    ${XINPUT_LIB} 
+)
+
   # set all include directories
   target_include_directories(${TARGET_NAME} PRIVATE
     ${VLD_INCLUDE_DIR}
@@ -255,10 +262,6 @@ target_include_directories(${TARGET_NAME} PRIVATE
   External/imgui-docking
   External/implot
 )
-
-# set the working directory to the directory with the source files
-target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
-target_link_libraries(${TARGET_NAME} PRIVATE glm)
 
 # compile at max warning level + treat warnings as errors
 target_compile_options(${TARGET_NAME} PRIVATE
