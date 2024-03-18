@@ -28,14 +28,14 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Font.h
   Minigin/Texture2D.cpp
   Minigin/Texture2D.h
-  Minigin/Component.cpp
-  Minigin/Component.h
   Minigin/GUI.cpp
   Minigin/GUI.h 
-  Minigin/WidgetWindow.cpp
-  Minigin/WidgetWindow.h
-  Minigin/Widget.cpp
-  Minigin/Widget.h
+  Minigin/Controller.cpp
+  Minigin/Controller.h
+  Minigin/InputMap.h
+  Minigin/Action.cpp
+  Minigin/Action.h
+  Minigin/XInputImp.cpp
 
   Minigin/Managers/GameTime.cpp
   Minigin/Managers/GameTime.h
@@ -46,6 +46,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Managers/InputManager.cpp
   Minigin/Managers/InputManager.h
 
+  Minigin/Components/Component.cpp
+  Minigin/Components/Component.h
   Minigin/Components/RenderComp.cpp
   Minigin/Components/RenderComp.h
   Minigin/Components/SpriteRenderComp.cpp
@@ -56,9 +58,20 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/FPSComp.h 
   Minigin/Components/OrbitComp.cpp
   Minigin/Components/OrbitComp.h
+  Minigin/Components/MoveComp.cpp
+  Minigin/Components/MoveComp.h
 
+  Minigin/Widgets/WidgetWindow.cpp
+  Minigin/Widgets/WidgetWindow.h
+  Minigin/Widgets/Widget.cpp
+  Minigin/Widgets/Widget.h
   Minigin/Widgets/TrashTheCache.cpp
   Minigin/Widgets/TrashTheCache.h
+
+  Minigin/Commands/Command.h
+  Minigin/Commands/GameObjectCommand.h
+  Minigin/Commands/MoveCommand.cpp
+  Minigin/Commands/MoveCommand.h
 )
 
 add_library(imgui OBJECT
@@ -101,8 +114,10 @@ endif()
 FetchContent_Declare(fmt
   GIT_REPOSITORY https://github.com/fmtlib/fmt.git
   GIT_TAG 10.2.1
+  GIT_PROGRESS TRUE
 )
 FetchContent_MakeAvailable(fmt)
+
 target_link_libraries(${TARGET_NAME} PRIVATE fmt::fmt)
 
 # add SDL2
@@ -175,6 +190,11 @@ if (WIN32)
         set(VLD_LIBRARY "${VLD_DIR}/lib/Win32/vld.lib")
     endif()
   endif()
+
+SET( XINPUT_LIB XInput )
+target_link_libraries(${TARGET_NAME} PUBLIC
+    ${XINPUT_LIB} 
+)
 
   # set all include directories
   target_include_directories(${TARGET_NAME} PRIVATE

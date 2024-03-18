@@ -2,7 +2,7 @@
 #include <deque>
 #include <memory>
 
-#include "../Component.h"
+#include "Component.h"
 #include "Font.h"
 
 namespace enf

@@ -1,7 +1,9 @@
 #pragma once
-#include <string>
+
 #include <functional>
 #include <filesystem>
+
+#include "InputMap.h"
 
 namespace enf
 {

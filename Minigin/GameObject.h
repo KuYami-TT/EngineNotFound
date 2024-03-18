@@ -5,7 +5,7 @@
 #include <string>
 #include <vector>
 
-#include "Component.h"
+#include "Components/Component.h"
 #include "glm/vec3.hpp"
 
 namespace enf

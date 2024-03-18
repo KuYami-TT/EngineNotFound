@@ -3,7 +3,7 @@
 #include <vector>
 
 #include "Singleton.h"
-#include "WidgetWindow.h"
+#include "Widgets/WidgetWindow.h"
 
 struct SDL_Window;
 struct SDL_Renderer;
