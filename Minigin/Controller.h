@@ -19,9 +19,6 @@ namespace enf
 		GameObject* GetPossessed() const;
 		InputMap* GetInputMap() const;
 
-		// doesn't work?
-		//InputMap* GetInputMap() const { return m_InputMap; }
-
 	private:
 		GameObject* m_Possessed;
 		InputMap* m_InputMap;

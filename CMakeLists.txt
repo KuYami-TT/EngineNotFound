@@ -35,6 +35,7 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/InputMap.h
   Minigin/Action.cpp
   Minigin/Action.h
+  Minigin/XInputImp.cpp
 
   Minigin/Managers/GameTime.cpp
   Minigin/Managers/GameTime.h
@@ -57,6 +58,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Components/FPSComp.h 
   Minigin/Components/OrbitComp.cpp
   Minigin/Components/OrbitComp.h
+  Minigin/Components/MoveComp.cpp
+  Minigin/Components/MoveComp.h
 
   Minigin/Widgets/WidgetWindow.cpp
   Minigin/Widgets/WidgetWindow.h
@@ -66,8 +69,9 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Widgets/TrashTheCache.h
 
   Minigin/Commands/Command.h
-  Minigin/Commands/PrintCommand.cpp
-  Minigin/Commands/PrintCommand.h
+  Minigin/Commands/GameObjectCommand.h
+  Minigin/Commands/MoveCommand.cpp
+  Minigin/Commands/MoveCommand.h
 )
 
 add_library(imgui OBJECT

@@ -3,7 +3,7 @@
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
-//include <vld.h>
+//#include <vld.h>
 #endif
 #endif
 
@@ -16,8 +16,9 @@
 #include "GameObject.h"
 #include "GUI.h"
 #include "InputMap.h"
-#include "Commands/PrintCommand.h"
+#include "Commands/MoveCommand.h"
 #include "Components/FPSComp.h"
+#include "Components/MoveComp.h"
 #include "Components/OrbitComp.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
@@ -31,8 +32,8 @@ using namespace enf;
 
 void DemoScene()
 {
-	const auto window00 = GUI::Get().AddWidgetWindow("Exercise 2");
-	window00->AddWidget<TrashTheCache>("Graph Exercise 2");
+	//const auto window00 = GUI::Get().AddWidgetWindow("Exercise 2");
+	//window00->AddWidget<TrashTheCache>("Graph Exercise 2");
 
 	auto& scene = SceneManager::Get().GetSceneByName("Demo");
 
@@ -42,13 +43,20 @@ void DemoScene()
 	object = scene.AddGameObject("logo", glm::vec3{ 300.f, 80.f, 0.f });
 	object->AddComponent<SpriteRenderComp>("logo.tga");
 
-	object = scene.AddGameObject("title", glm::vec3{ 250.f, 20.f, 0.f });
 	const auto titleFont = ResourceManager::Get().LoadFont("Lingua.otf", 26);
+	const auto fpsFont = ResourceManager::Get().LoadFont("Lingua.otf", 14);
+
+	object = scene.AddGameObject("title", glm::vec3{ 250.f, 20.f, 0.f });
 	object->AddComponent<TextRenderComp>(titleFont, "Programming 4 Assignment");
 
 	object = scene.AddGameObject("fps", glm::vec3{ 10.f, 20.f, 0.f });
-	const auto fpsFont = ResourceManager::Get().LoadFont("Lingua.otf", 20);
 	object->AddComponent<FPSComp>(fpsFont);
+
+	object = scene.AddGameObject("D-Pad", glm::vec3{ 10.f, 560.f, 0.f });
+	object->AddComponent<TextRenderComp>(fpsFont, "Use the D-Pad to move the top cacodemon");
+
+	object = scene.AddGameObject("WASD", glm::vec3{ 10.f, 600.f, 0.f });
+	object->AddComponent<TextRenderComp>(fpsFont, "Use WASD to move the bottom cacodemon");
 
 	//Cacodemons c:<
 	//const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
@@ -73,14 +81,30 @@ void DemoScene()
 	//cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
 	//cacodemon02->AddComponent<OrbitComp>(12.f, 40.f)->SetAngle(85.f);
 
-	const auto possessedCacodemon = scene.AddGameObject("Cacodemon_96x96", glm::vec3{ 100, 100, 10 });
-	possessedCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+	const auto controllerCacodemon = scene.AddGameObject("Controller Cacodemon", glm::vec3{ 100, 50, 10 });
+	controllerCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+	controllerCacodemon->AddComponent<MoveComp>(200.f);
+
+	const auto keyboardCacodemon = scene.AddGameObject("Keyboard Cacodemon", glm::vec3{ 100, 150, 10 });
+	keyboardCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+	keyboardCacodemon->AddComponent<MoveComp>(100.f);
 
 	//Controller
-	const auto inputMap = InputManager::Get().AddInputMap();
-	inputMap->BindAction<PrintCommand>(Action::InputState::OnTrigger, Action::ControllerLayout::GAMEPAD_DPAD_UP);
+	const auto controllerInputMap = InputManager::Get().AddInputMap();
+	controllerInputMap->BindAction<MoveUpCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_UP);
+	controllerInputMap->BindAction<MoveLeftCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_LEFT);
+	controllerInputMap->BindAction<MoveDownCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_DOWN);
+	controllerInputMap->BindAction<MoveRightCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_RIGHT);
+
+	const auto keyboardInputMap = InputManager::Get().AddInputMap();
+	keyboardInputMap->BindAction<MoveUpCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_W);
+	keyboardInputMap->BindAction<MoveLeftCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_A);
+	keyboardInputMap->BindAction<MoveDownCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_S);
+	keyboardInputMap->BindAction<MoveRightCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_D);
+
+	InputManager::Get().AddController(controllerCacodemon, controllerInputMap);
+	InputManager::Get().AddController(keyboardCacodemon, keyboardInputMap);
 	
-	InputManager::Get().AddController(possessedCacodemon, inputMap);
 }
 
 void load()

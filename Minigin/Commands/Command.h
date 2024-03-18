@@ -3,7 +3,6 @@
 namespace enf
 {
 	class InputMap;
-	class GameObject;
 
 	class Command
 	{
