@@ -15,6 +15,8 @@ namespace enf
 
 	class InputMap final
 	{
+		using Mappings = std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>;
+
 	public:
 		InputMap() = default;
 		~InputMap() = default;
@@ -38,10 +40,12 @@ namespace enf
 
 		const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& GetControllerMap();
 		const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& GetKeyboardMap();
+		const Mappings& GetControllerMap() const;
+		const Mappings& GetKeyboardMap() const;
 
 	private:
-		std::map<std::unique_ptr<Action>, std::unique_ptr<Command>> m_ControllerActionMap{};
-		std::map<std::unique_ptr<Action>, std::unique_ptr<Command>> m_KeyboardActionMap{};
+		Mappings m_ControllerActionMap{};
+		Mappings m_KeyboardActionMap{};
 	};
 
 	inline const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& InputMap::GetControllerMap()

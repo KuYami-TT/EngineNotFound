@@ -18,7 +18,7 @@ public:
 	{
 		CheckControllerState(controllerIndex);
 
-		for (const auto& context : controller->GetInputMap()->GetControllerMap())
+		for (auto&& context : controller->GetInputMap()->GetControllerMap())
 		{
 			switch (context.first->GetInputState())
 			{

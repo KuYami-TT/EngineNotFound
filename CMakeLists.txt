@@ -17,61 +17,34 @@ endif()
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
   Minigin/Main.cpp
   Minigin/Minigin.cpp
-  Minigin/Minigin.h
   Minigin/Renderer.cpp
-  Minigin/Renderer.h
   Minigin/GameObject.cpp
-  Minigin/GameObject.h
   Minigin/Scene.cpp
-  Minigin/Scene.h
   Minigin/Font.cpp
-  Minigin/Font.h
   Minigin/Texture2D.cpp
-  Minigin/Texture2D.h
   Minigin/GUI.cpp
-  Minigin/GUI.h 
   Minigin/Controller.cpp
-  Minigin/Controller.h
-  Minigin/InputMap.h
   Minigin/Action.cpp
-  Minigin/Action.h
   Minigin/XInputImp.cpp
 
   Minigin/Managers/GameTime.cpp
-  Minigin/Managers/GameTime.h
   Minigin/Managers/SceneManager.cpp
-  Minigin/Managers/SceneManager.h
   Minigin/Managers/ResourceManager.cpp
-  Minigin/Managers/ResourceManager.h
   Minigin/Managers/InputManager.cpp
-  Minigin/Managers/InputManager.h
 
   Minigin/Components/Component.cpp
-  Minigin/Components/Component.h
   Minigin/Components/RenderComp.cpp
-  Minigin/Components/RenderComp.h
   Minigin/Components/SpriteRenderComp.cpp
-  Minigin/Components/SpriteRenderComp.h
   Minigin/Components/TextRenderComp.cpp
-  Minigin/Components/TextRenderComp.h 
   Minigin/Components/FPSComp.cpp
-  Minigin/Components/FPSComp.h 
   Minigin/Components/OrbitComp.cpp
-  Minigin/Components/OrbitComp.h
   Minigin/Components/MoveComp.cpp
-  Minigin/Components/MoveComp.h
-
+ 
   Minigin/Widgets/WidgetWindow.cpp
-  Minigin/Widgets/WidgetWindow.h
   Minigin/Widgets/Widget.cpp
-  Minigin/Widgets/Widget.h
   Minigin/Widgets/TrashTheCache.cpp
-  Minigin/Widgets/TrashTheCache.h
 
-  Minigin/Commands/Command.h
-  Minigin/Commands/GameObjectCommand.h
   Minigin/Commands/MoveCommand.cpp
-  Minigin/Commands/MoveCommand.h
 )
 
 add_library(imgui OBJECT
