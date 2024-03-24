@@ -10,7 +10,7 @@ namespace enf
 	class PlayerHud final : public Component, public Observer
 	{
 	public:
-		PlayerHud(Font* fontPtr);
+		PlayerHud(Font* fontPtr, int startLives);
 		~PlayerHud() override = default;
 
 		PlayerHud(PlayerHud&& other) = delete;
@@ -18,7 +18,7 @@ namespace enf
 		PlayerHud& operator=(PlayerHud&& other) = delete;
 		PlayerHud& operator=(const PlayerHud& other) = delete;
 
-		auto Awake() -> void override;
+		void Awake() override;
 
 		void Notify(GameObject* gameObject, Event event) override;
 
@@ -26,6 +26,8 @@ namespace enf
 		TextRenderComp* m_LivesText{};
 		TextRenderComp* m_ScoreText{};
 		Font* m_FontPtr{};
+		int m_StartLives{};
+		int m_Score{};
 
 		void UpdateLives(int lives);
 		void UpdateScore(int score);

@@ -2,15 +2,15 @@
 
 void enf::Subject::AddObserver(Observer* observer)
 {
-	m_Observers.push_back(std::unique_ptr<Observer>(observer));
+	m_Observers.push_back(observer);
 }
 
 void enf::Subject::RemoveObserver(const Observer* observer)
 {
 	const auto it = 
-		std::ranges::find_if(m_Observers, [&](const std::unique_ptr<Observer>& ptr)->bool 
+		std::ranges::find_if(m_Observers, [&](const Observer* ptr)->bool 
 			{
-				return ptr.get() == observer;
+				return ptr == observer;
 			});
 
 	if (it != m_Observers.end()) 

@@ -54,11 +54,12 @@ namespace enf
 			//if (foundComp != nullptr)
 			//	return foundComp;
 		
-			auto& newCompPtr = m_ComponentsPtr.emplace_back(std::make_unique<ComponentType>(args...));
+			m_ComponentsPtr.emplace_back(std::make_unique<ComponentType>(args...));
+			auto newCompPtr=  m_ComponentsPtr.back().get();
 			newCompPtr->SetOwner(this);
 			newCompPtr->Awake();
 
-			return reinterpret_cast<ComponentType*>(newCompPtr.get());
+			return reinterpret_cast<ComponentType*>(newCompPtr);
 		}
 		
 		template<IComponent ComponentType>
@@ -66,8 +67,7 @@ namespace enf
 		{
 			auto it = std::ranges::find_if(m_ComponentsPtr, [](const std::unique_ptr<Component>& type)->bool
 				{
-					auto pCastedPtr = dynamic_cast<ComponentType*>(type.get());
-					return pCastedPtr != nullptr;
+					return dynamic_cast<ComponentType*>(type.get()) != nullptr;
 				});
 		
 			if (it != m_ComponentsPtr.end())

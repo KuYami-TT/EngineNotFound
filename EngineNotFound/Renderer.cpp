@@ -58,7 +58,8 @@ void enf::Renderer::Render() const
 			continue;
 
 		const glm::vec3& pos = comp->GetOwner()->GetWorldPos();
-		RenderTexture(*comp->GetTexturePtr(), pos.x, pos.y);
+		const glm::vec2& offset = comp->GetOffset();
+		RenderTexture(*comp->GetTexturePtr(), pos.x + offset.x, pos.y + offset.y);
 	}
 
 	GUI::Get().Render();

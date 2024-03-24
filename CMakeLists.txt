@@ -40,12 +40,15 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   EngineNotFound/Components/OrbitComp.cpp
   EngineNotFound/Components/MoveComp.cpp
   EngineNotFound/Components/PlayerHud.cpp
+  EngineNotFound/Components/LivesComp.cpp
+  EngineNotFound/Components/ScoreComp.cpp
  
   EngineNotFound/Widgets/WidgetWindow.cpp
   EngineNotFound/Widgets/Widget.cpp
   EngineNotFound/Widgets/TrashTheCache.cpp
 
   EngineNotFound/Commands/MoveCommand.cpp
+  EngineNotFound/Commands/ActionCommand.cpp
 
   EngineNotFound/Observers/Subject.cpp
 )

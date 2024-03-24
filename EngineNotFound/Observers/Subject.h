@@ -17,6 +17,6 @@ namespace enf
 		void NotifyObservers(GameObject* gameObject, Event event);
 
 	private:
-		std::vector<std::unique_ptr<Observer>> m_Observers{};
+		std::vector<Observer*> m_Observers{};
 	};
 }

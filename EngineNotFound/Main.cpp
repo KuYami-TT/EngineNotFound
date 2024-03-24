@@ -16,15 +16,20 @@
 #include "GameObject.h"
 #include "GUI.h"
 #include "InputMap.h"
+#include "Commands/ActionCommand.h"
 #include "Commands/MoveCommand.h"
 #include "Components/FPSComp.h"
+#include "Components/LivesComp.h"
 #include "Components/MoveComp.h"
 #include "Components/OrbitComp.h"
+#include "Components/PlayerHud.h"
+#include "Components/ScoreComp.h"
 #include "Managers/SceneManager.h"
 #include "Managers/ResourceManager.h"
 #include "Components/SpriteRenderComp.h"
 #include "Components/TextRenderComp.h"
 #include "Managers/InputManager.h"
+#include "Observers/Subject.h"
 #include "Widgets/TrashTheCache.h"
 
 namespace fs = std::filesystem;
@@ -32,9 +37,6 @@ using namespace enf;
 
 void DemoScene()
 {
-	//const auto window00 = GUI::Get().AddWidgetWindow("Exercise 2");
-	//window00->AddWidget<TrashTheCache>("Graph Exercise 2");
-
 	auto& scene = SceneManager::Get().GetSceneByName("Demo");
 
 	auto object = scene.AddGameObject("background");
@@ -58,36 +60,31 @@ void DemoScene()
 	object = scene.AddGameObject("WASD", glm::vec3{ 10.f, 600.f, 0.f });
 	object->AddComponent<TextRenderComp>(fpsFont, "Use WASD to move the bottom cacodemon, C to inflict damage, Z and X to pick up pellets");
 
-	//Cacodemons c:<
-	//const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
-	//
-	//const auto cacodemonMain = scene.AddGameObject("Cacodemon_96x96");
-	//cacodemonMain->SetParent(pivotPoint);
-	//cacodemonMain->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
-	//cacodemonMain->AddComponent<OrbitComp>(0.5f, 40.f)->SetAngle(112.f);
-	//
-	//const auto cacodemon00 = scene.AddGameObject("Cacodemon_72x72");
-	//cacodemon00->SetParent(cacodemonMain);
-	//cacodemon00->AddComponent<SpriteRenderComp>("Cacodemon_72x72.png");
-	//cacodemon00->AddComponent<OrbitComp>(-1.f, 200.f)->SetAngle(45.f);
-	//
-	//const auto cacodemon01 = scene.AddGameObject("Cacodemon_48x48");
-	//cacodemon01->SetParent(cacodemon00);
-	//cacodemon01->AddComponent<SpriteRenderComp>("Cacodemon_48x48.png");
-	//cacodemon01->AddComponent<OrbitComp>(6.f, 80.f)->SetAngle(240.f);
-	//
-	//const auto cacodemon02 = scene.AddGameObject("cacodemon_36x36");
-	//cacodemon02->SetParent(cacodemon01);
-	//cacodemon02->AddComponent<SpriteRenderComp>("Cacodemon_36x36.png");
-	//cacodemon02->AddComponent<OrbitComp>(12.f, 40.f)->SetAngle(85.f);
-
 	const auto controllerCacodemon = scene.AddGameObject("Controller Cacodemon", glm::vec3{ 100, 50, 10 });
 	controllerCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
 	controllerCacodemon->AddComponent<MoveComp>(200.f);
+	{
+		const auto livesSubject = controllerCacodemon->AddComponent<LivesComp>(3);
+		const auto scoreSubject = controllerCacodemon->AddComponent<ScoreComp>();
+
+		const auto hud = scene.AddGameObject("Player0 hud", glm::vec3{ 10, 75, 100 });
+		const auto hudObserver = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
+		livesSubject->AddObserver(hudObserver);
+		scoreSubject->AddObserver(hudObserver);
+	}
 
 	const auto keyboardCacodemon = scene.AddGameObject("Keyboard Cacodemon", glm::vec3{ 100, 150, 10 });
 	keyboardCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
 	keyboardCacodemon->AddComponent<MoveComp>(100.f);
+	{
+		const auto livesSubject = keyboardCacodemon->AddComponent<LivesComp>(3);
+		const auto scoreSubject = keyboardCacodemon->AddComponent<ScoreComp>();
+
+		const auto hud = scene.AddGameObject("Player1 hud", glm::vec3{ 10, 150, 100 });
+		const auto hudObserver = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
+		livesSubject->AddObserver(hudObserver);
+		scoreSubject->AddObserver(hudObserver);
+	}
 
 	//Controller
 	const auto controllerInputMap = InputManager::Get().AddInputMap();
@@ -95,12 +92,18 @@ void DemoScene()
 	controllerInputMap->BindAction<MoveLeftCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_LEFT);
 	controllerInputMap->BindAction<MoveDownCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_DOWN);
 	controllerInputMap->BindAction<MoveRightCommand>(Action::InputState::OnDown, Action::ControllerLayout::GAMEPAD_DPAD_RIGHT);
+	controllerInputMap->BindAction<TakeDamageCommand>(Action::InputState::OnTrigger, Action::ControllerLayout::GAMEPAD_X);
+	controllerInputMap->BindAction<GetPointsCommand>(Action::InputState::OnTrigger, Action::ControllerLayout::GAMEPAD_A, 10);
+	controllerInputMap->BindAction<GetPointsCommand>(Action::InputState::OnTrigger, Action::ControllerLayout::GAMEPAD_B, 100);
 
 	const auto keyboardInputMap = InputManager::Get().AddInputMap();
 	keyboardInputMap->BindAction<MoveUpCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_W);
 	keyboardInputMap->BindAction<MoveLeftCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_A);
 	keyboardInputMap->BindAction<MoveDownCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_S);
 	keyboardInputMap->BindAction<MoveRightCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_D);
+	keyboardInputMap->BindAction<TakeDamageCommand>(Action::InputState::OnTrigger, Action::KeyboardLayout::KEYBOARD_C);
+	keyboardInputMap->BindAction<GetPointsCommand>(Action::InputState::OnTrigger, Action::KeyboardLayout::KEYBOARD_Z, 10);
+	keyboardInputMap->BindAction<GetPointsCommand>(Action::InputState::OnTrigger, Action::KeyboardLayout::KEYBOARD_X, 100);
 
 	//TODO: make it so the input map can be copied (try map of values)
 	//TODO: What if I want to have some commands without a gameObject?

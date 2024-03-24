@@ -11,18 +11,18 @@
 
 bool enf::InputManager::ProcessInput()
 {
-	HandleControllerEvent();
-
 	const Uint8* keyboardStatePtr = SDL_GetKeyboardState(nullptr);
 
 	for (auto&& controller : m_Controllers)
 	{
+		controller->HandleControllerInput();
+
 		for (const auto& context : controller->GetInputMap()->GetKeyboardMap())
 		{
 			switch (context.first->GetInputState())
 			{
 			case Action::InputState::OnDown:
-				if (keyboardStatePtr[EngineButtonToSDL_scanecode(context.first->GetKeyboardInput())])
+				if (keyboardStatePtr[EngineButtonToSDL_Scanecode(context.first->GetKeyboardInput())])
 				{
 					context.second->Execute();
 				}
@@ -56,10 +56,8 @@ bool enf::InputManager::ProcessInput()
 					}
 					break;
 				case Action::InputState::OnRelease:
-					if (e.type == static_cast<Uint32>(SDLK_UP))
+					if (e.type == static_cast<Uint32>(SDL_KEYUP))
 					{
-						if (e.key.repeat) return true;
-
 						if (e.key.keysym.sym == EngineButtonToSDL_KeyCode(context.first->GetKeyboardInput()))
 							context.second->Execute();
 					}
@@ -96,8 +94,8 @@ void enf::InputManager::AddController(GameObject* possessed, InputMap* inputMap)
 			dynamic_cast<GameObjectCommand*>(command.get())->SetPossessed(possessed);
 		}
 	}
-
-	m_Controllers.push_back(std::make_unique<Controller>(possessed, inputMap));
+	
+	m_Controllers.push_back(std::make_unique<Controller>(possessed, inputMap, static_cast<int>(m_Controllers.size())));
 }
 
 enf::InputMap* enf::InputManager::AddInputMap()
@@ -155,7 +153,7 @@ SDL_KeyCode enf::InputManager::EngineButtonToSDL_KeyCode(Action::KeyboardLayout 
 	}
 }
 
-SDL_Scancode enf::InputManager::EngineButtonToSDL_scanecode(Action::KeyboardLayout button)
+SDL_Scancode enf::InputManager::EngineButtonToSDL_Scanecode(Action::KeyboardLayout button)
 {
 	switch (button)
 	{

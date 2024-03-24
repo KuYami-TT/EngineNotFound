@@ -5,8 +5,7 @@ namespace enf
 {
 	enum class Event
 	{
-		OnTakeDamage,
-		OnSmallPickUp,
-		OnBigPickUp
+		LivesChange,
+		OnPickUp
 	};
 }

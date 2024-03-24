@@ -23,13 +23,17 @@ namespace enf
 
 		void Awake() override;
 
+		inline void SetOffset(glm::vec2 offset) { m_Offset = offset; }
+
 		[[nodiscard]] inline Texture2D* GetTexturePtr() const { return m_TexturePtr; }
 		[[nodiscard]] inline float GetRenderDepth() const { return GetOwner()->GetLocalPos().z; }
+		[[nodiscard]] inline glm::vec2 GetOffset() const { return m_Offset; }
 
 	protected:
 		Texture2D* m_TexturePtr{};
 
 	private:
 		Renderer* m_RendererPtr{};
+		glm::vec2 m_Offset{};
 	};
 }
