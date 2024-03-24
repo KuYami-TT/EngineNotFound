@@ -11,7 +11,7 @@
 
 #include "Action.h"
 #include "glm/vec3.hpp"
-#include "Minigin.h"
+#include "EngineNotFound.h"
 #include "Scene.h"
 #include "GameObject.h"
 #include "GUI.h"
@@ -53,10 +53,10 @@ void DemoScene()
 	object->AddComponent<FPSComp>(fpsFont);
 
 	object = scene.AddGameObject("D-Pad", glm::vec3{ 10.f, 560.f, 0.f });
-	object->AddComponent<TextRenderComp>(fpsFont, "Use the D-Pad to move the top cacodemon");
+	object->AddComponent<TextRenderComp>(fpsFont, "Use the D-Pad to move the top cacodemon, X to inflict damage, A and B to pick up pellets");
 
 	object = scene.AddGameObject("WASD", glm::vec3{ 10.f, 600.f, 0.f });
-	object->AddComponent<TextRenderComp>(fpsFont, "Use WASD to move the bottom cacodemon");
+	object->AddComponent<TextRenderComp>(fpsFont, "Use WASD to move the bottom cacodemon, C to inflict damage, Z and X to pick up pellets");
 
 	//Cacodemons c:<
 	//const auto pivotPoint = scene.AddGameObject("pivot", glm::vec3{ 300.f, 214.f, 10.f });
@@ -102,9 +102,10 @@ void DemoScene()
 	keyboardInputMap->BindAction<MoveDownCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_S);
 	keyboardInputMap->BindAction<MoveRightCommand>(Action::InputState::OnDown, Action::KeyboardLayout::KEYBOARD_D);
 
+	//TODO: make it so the input map can be copied (try map of values)
+	//TODO: What if I want to have some commands without a gameObject?
 	InputManager::Get().AddController(controllerCacodemon, controllerInputMap);
 	InputManager::Get().AddController(keyboardCacodemon, keyboardInputMap);
-	
 }
 
 void load()

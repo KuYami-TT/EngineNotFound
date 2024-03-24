@@ -50,8 +50,9 @@ namespace enf
         template<IComponent ComponentType, typename... TArgs>
         ComponentType* AddComponent(const TArgs&... args)
 		{
-			if (HasComponent<ComponentType>())
-				return nullptr;
+			//const auto foundComp = GetComponent<ComponentType>();
+			//if (foundComp != nullptr)
+			//	return foundComp;
 		
 			auto& newCompPtr = m_ComponentsPtr.emplace_back(std::make_unique<ComponentType>(args...));
 			newCompPtr->SetOwner(this);
@@ -68,19 +69,13 @@ namespace enf
 					auto pCastedPtr = dynamic_cast<ComponentType*>(type.get());
 					return pCastedPtr != nullptr;
 				});
-
+		
 			if (it != m_ComponentsPtr.end())
 			{
 				return dynamic_cast<ComponentType*>(it->get());
 			}
-
-			return nullptr;
-		}
 		
-		template<IComponent ComponentType>
-		bool HasComponent()
-		{
-			return GetComponent<ComponentType>() != nullptr;
+			return nullptr;
 		}
 
 		//Delete components that are marked for deletion 

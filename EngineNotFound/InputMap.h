@@ -38,8 +38,8 @@ namespace enf
 			m_KeyboardActionMap.emplace(std::make_unique<Action>(inputState, input), std::make_unique<CommandType>(args...));
 		}
 
-		const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& GetControllerMap();
-		const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& GetKeyboardMap();
+		const Mappings& GetControllerMap();
+		const Mappings& GetKeyboardMap();
 		const Mappings& GetControllerMap() const;
 		const Mappings& GetKeyboardMap() const;
 
@@ -48,12 +48,12 @@ namespace enf
 		Mappings m_KeyboardActionMap{};
 	};
 
-	inline const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& InputMap::GetControllerMap()
+	inline const InputMap::Mappings& InputMap::GetControllerMap()
 	{
 		return m_ControllerActionMap;
 	}
 
-	inline const std::map<std::unique_ptr<Action>, std::unique_ptr<Command>>& InputMap::GetKeyboardMap()
+	inline const InputMap::Mappings& InputMap::GetKeyboardMap()
 	{
 		return m_KeyboardActionMap;
 	}

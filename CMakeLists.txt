@@ -1,50 +1,53 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(EngineNotFound)
 
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
 
 if(EMSCRIPTEN)
-  set(TARGET_NAME minigin_web)
+  set(TARGET_NAME EngineNotFound_web)
   set(TARGET_PARAM )
 else()
-  set(TARGET_NAME minigin)
+  set(TARGET_NAME EngineNotFound)
   set(TARGET_PARAM WIN32)
 endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Renderer.cpp
-  Minigin/GameObject.cpp
-  Minigin/Scene.cpp
-  Minigin/Font.cpp
-  Minigin/Texture2D.cpp
-  Minigin/GUI.cpp
-  Minigin/Controller.cpp
-  Minigin/Action.cpp
-  Minigin/XInputImp.cpp
+  EngineNotFound/Main.cpp
+  EngineNotFound/EngineNotFound.cpp
+  EngineNotFound/Renderer.cpp
+  EngineNotFound/GameObject.cpp
+  EngineNotFound/Scene.cpp
+  EngineNotFound/Font.cpp
+  EngineNotFound/Texture2D.cpp
+  EngineNotFound/GUI.cpp
+  EngineNotFound/Controller.cpp
+  EngineNotFound/Action.cpp
+  EngineNotFound/XInputImp.cpp
 
-  Minigin/Managers/GameTime.cpp
-  Minigin/Managers/SceneManager.cpp
-  Minigin/Managers/ResourceManager.cpp
-  Minigin/Managers/InputManager.cpp
+  EngineNotFound/Managers/GameTime.cpp
+  EngineNotFound/Managers/SceneManager.cpp
+  EngineNotFound/Managers/ResourceManager.cpp
+  EngineNotFound/Managers/InputManager.cpp
 
-  Minigin/Components/Component.cpp
-  Minigin/Components/RenderComp.cpp
-  Minigin/Components/SpriteRenderComp.cpp
-  Minigin/Components/TextRenderComp.cpp
-  Minigin/Components/FPSComp.cpp
-  Minigin/Components/OrbitComp.cpp
-  Minigin/Components/MoveComp.cpp
+  EngineNotFound/Components/Component.cpp
+  EngineNotFound/Components/RenderComp.cpp
+  EngineNotFound/Components/SpriteRenderComp.cpp
+  EngineNotFound/Components/TextRenderComp.cpp
+  EngineNotFound/Components/FPSComp.cpp
+  EngineNotFound/Components/OrbitComp.cpp
+  EngineNotFound/Components/MoveComp.cpp
+  EngineNotFound/Components/PlayerHud.cpp
  
-  Minigin/Widgets/WidgetWindow.cpp
-  Minigin/Widgets/Widget.cpp
-  Minigin/Widgets/TrashTheCache.cpp
+  EngineNotFound/Widgets/WidgetWindow.cpp
+  EngineNotFound/Widgets/Widget.cpp
+  EngineNotFound/Widgets/TrashTheCache.cpp
 
-  Minigin/Commands/MoveCommand.cpp
+  EngineNotFound/Commands/MoveCommand.cpp
+
+  EngineNotFound/Observers/Subject.cpp
 )
 
 add_library(imgui OBJECT
@@ -234,7 +237,7 @@ elseif(NOT EMSCRIPTEN)
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE
-  ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/EngineNotFound/
   ${glm_SOURCE_DIR}
   External/imgui-docking
   External/implot

@@ -20,6 +20,9 @@ namespace enf
 		InputMap* AddInputMap();
 
 	private:
+		//TODO: make it so, I don't need to forward declare the class
+		//TODO: fix the fact I can only use one pimpl here
+		//TODO: You're missing an abstraction -> a gamepad??
 		class XInputImp;
 		std::unique_ptr<XInputImp> m_ControllerImplPtr;
 
