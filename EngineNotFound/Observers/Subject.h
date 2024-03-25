@@ -15,8 +15,6 @@ namespace enf
 
 	protected:
 		void NotifyObservers(GameObject* gameObject, Event event);
-
-	private:
 		std::vector<Observer*> m_Observers{};
 	};
 }

@@ -5,6 +5,7 @@
 #include "LivesComp.h"
 #include "ScoreComp.h"
 #include "TextRenderComp.h"
+#include "SteamWorks/Achievements.h"
 
 enf::PlayerHud::PlayerHud(Font* fontPtr, int startLives) :
 	Observer(),
@@ -45,5 +46,9 @@ void enf::PlayerHud::UpdateLives(int lives)
 void enf::PlayerHud::UpdateScore(int score)
 {
 	m_Score += score;
+
+	if (g_SteamAchievements && m_Score >= 500)
+		NotifyObservers(GetOwner(), Event::UnlockAchievement);
+
 	m_ScoreText->SetText(fmt::format("SCORE: {}", m_Score));
 }

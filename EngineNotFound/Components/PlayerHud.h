@@ -1,13 +1,14 @@
 #pragma once
 #include "Component.h"
 #include "Observers/Observer.h"
+#include "Observers/Subject.h"
 
 namespace enf
 {
 	class Font;
 	class TextRenderComp;
 	class GameObject;
-	class PlayerHud final : public Component, public Observer
+	class PlayerHud final : public Component, public Observer, public Subject
 	{
 	public:
 		PlayerHud(Font* fontPtr, int startLives);

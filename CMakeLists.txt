@@ -1,6 +1,8 @@
 cmake_minimum_required(VERSION 3.26)
 project(EngineNotFound)
 
+option(USE_STEAMWORKS "Use steamworks SDK (must provide it in external/steamworks)" TRUE)
+
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
@@ -51,6 +53,8 @@ add_executable(${TARGET_NAME} ${TARGET_PARAM}
   EngineNotFound/Commands/ActionCommand.cpp
 
   EngineNotFound/Observers/Subject.cpp
+
+  EngineNotFound/SteamWorks/Achievements.cpp
 )
 
 add_library(imgui OBJECT
@@ -68,6 +72,57 @@ add_library(imgui OBJECT
 target_include_directories(imgui PRIVATE External/imgui-docking External/implot)
 
 target_link_libraries(${TARGET_NAME} PRIVATE imgui)
+
+if(USE_STEAMWORKS)
+    if(NOT EXISTS "${CMAKE_SOURCE_DIR}/external/steamworks")
+        message(FATAL_ERROR "Steamworks directory not found. Please place the contents of the Steamworks zip file at external/steamworks")
+    else()
+        file(GLOB STEAMWORKS_FILES "${CMAKE_SOURCE_DIR}/external/steamworks/*")
+        if(NOT STEAMWORKS_FILES)
+            message(FATAL_ERROR "Steamworks directory is empty. Please make sure it contains the necessary files.")
+        endif()
+    endif()
+
+
+    set(STEAMWORKS_INCLUDE_DIR ${CMAKE_SOURCE_DIR}/external/steamworks/public/steam)
+    set(STEAMWORKS_LIB_DIR ${CMAKE_SOURCE_DIR}/external/steamworks/redistributable_bin)
+
+    if(WIN32)
+        if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+            set(STEAMWORKS_LIB ${STEAMWORKS_LIB_DIR}/win64/steam_api64.lib)
+
+            add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                           ${STEAMWORKS_LIB_DIR}/win64/steam_api64.dll
+                           $<TARGET_FILE_DIR:${TARGET_NAME}>)
+
+        else()
+            set(STEAMWORKS_LIB ${STEAMWORKS_LIB_DIR}/steam_api.lib)
+            
+            add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+                   COMMAND ${CMAKE_COMMAND} -E copy
+                           ${STEAMWORKS_LIB_DIR}/steam_api.dll
+                           $<TARGET_FILE_DIR:${TARGET_NAME}>)
+        endif()
+
+    else()
+        if(CMAKE_SIZEOF_VOID_P EQUAL 8)
+            set(STEAMWORKS_LIB ${STEAMWORKS_LIB_DIR}/linux64/libsteam_api.so)
+        else()
+            set(STEAMWORKS_LIB ${STEAMWORKS_LIB_DIR}/linux32/libsteam_api.so)
+        endif()
+    endif()
+
+    target_include_directories(${TARGET_NAME} PRIVATE ${STEAMWORKS_INCLUDE_DIR})
+    target_link_libraries(${TARGET_NAME} PRIVATE ${STEAMWORKS_LIB})
+
+    target_compile_definitions(${TARGET_NAME} PRIVATE USE_STEAMWORKS)
+
+    add_custom_command(TARGET ${TARGET_NAME} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E echo 480 > "$<TARGET_FILE_DIR:${TARGET_NAME}>/steam_appid.txt" 
+        COMMENT "Creating steam_appid.txt"
+    )
+endif()
 
 # enable c++20 features
 target_compile_features(${TARGET_NAME} PUBLIC cxx_std_20)

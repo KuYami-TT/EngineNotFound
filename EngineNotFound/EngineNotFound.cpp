@@ -21,6 +21,10 @@
 #include "Renderer.h"
 #include "Managers/ResourceManager.h"
 
+#ifdef USE_STEAMWORKS
+#include "steam_api_common.h"
+#endif
+
 using namespace std::chrono;
 
 SDL_Window* g_window{};
@@ -119,6 +123,8 @@ void enf::Minigin::Run(const std::function<void()>& load)
 
 void enf::Minigin::RunOneFrame()
 {
+	SteamAPI_RunCallbacks();
+
 	game_time::UpdateDelta();
 
 	m_Quit = !InputManager::Get().ProcessInput();

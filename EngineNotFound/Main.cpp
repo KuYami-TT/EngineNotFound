@@ -3,8 +3,17 @@
 #if _DEBUG
 // ReSharper disable once CppUnusedIncludeDirective
 #if __has_include(<vld.h>)
-//#include <vld.h>
+#include <vld.h>
 #endif
+#endif
+
+//#undef USE_STEAMWORKS
+
+#ifdef USE_STEAMWORKS
+#pragma warning (push)
+#pragma warning (disable: 4996)
+#include <steam_api.h>
+#pragma warning (pop)
 #endif
 
 #include <filesystem>
@@ -14,14 +23,13 @@
 #include "EngineNotFound.h"
 #include "Scene.h"
 #include "GameObject.h"
-#include "GUI.h"
 #include "InputMap.h"
+#include "SDL_egl.h"
 #include "Commands/ActionCommand.h"
 #include "Commands/MoveCommand.h"
 #include "Components/FPSComp.h"
 #include "Components/LivesComp.h"
 #include "Components/MoveComp.h"
-#include "Components/OrbitComp.h"
 #include "Components/PlayerHud.h"
 #include "Components/ScoreComp.h"
 #include "Managers/SceneManager.h"
@@ -30,6 +38,7 @@
 #include "Components/TextRenderComp.h"
 #include "Managers/InputManager.h"
 #include "Observers/Subject.h"
+#include "SteamWorks/Achievements.h"
 #include "Widgets/TrashTheCache.h"
 
 namespace fs = std::filesystem;
@@ -60,30 +69,39 @@ void DemoScene()
 	object = scene.AddGameObject("WASD", glm::vec3{ 10.f, 600.f, 0.f });
 	object->AddComponent<TextRenderComp>(fpsFont, "Use WASD to move the bottom cacodemon, C to inflict damage, Z and X to pick up pellets");
 
+	const auto achievement = scene.AddGameObject("achievements");
+	auto achievementObserver = achievement->AddComponent<AchievementComp>();
+
 	const auto controllerCacodemon = scene.AddGameObject("Controller Cacodemon", glm::vec3{ 100, 50, 10 });
-	controllerCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
-	controllerCacodemon->AddComponent<MoveComp>(200.f);
 	{
+		controllerCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+		controllerCacodemon->AddComponent<MoveComp>(200.f);
+
 		const auto livesSubject = controllerCacodemon->AddComponent<LivesComp>(3);
 		const auto scoreSubject = controllerCacodemon->AddComponent<ScoreComp>();
 
 		const auto hud = scene.AddGameObject("Player0 hud", glm::vec3{ 10, 75, 100 });
-		const auto hudObserver = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
-		livesSubject->AddObserver(hudObserver);
-		scoreSubject->AddObserver(hudObserver);
+		const auto playerHud = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
+		livesSubject->AddObserver(playerHud);
+		scoreSubject->AddObserver(playerHud);
+
+		playerHud->AddObserver(achievementObserver);
 	}
 
 	const auto keyboardCacodemon = scene.AddGameObject("Keyboard Cacodemon", glm::vec3{ 100, 150, 10 });
-	keyboardCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
-	keyboardCacodemon->AddComponent<MoveComp>(100.f);
 	{
+		keyboardCacodemon->AddComponent<SpriteRenderComp>("Cacodemon_96x96.png");
+		keyboardCacodemon->AddComponent<MoveComp>(100.f);
+
 		const auto livesSubject = keyboardCacodemon->AddComponent<LivesComp>(3);
 		const auto scoreSubject = keyboardCacodemon->AddComponent<ScoreComp>();
 
 		const auto hud = scene.AddGameObject("Player1 hud", glm::vec3{ 10, 150, 100 });
-		const auto hudObserver = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
-		livesSubject->AddObserver(hudObserver);
-		scoreSubject->AddObserver(hudObserver);
+		const auto playerHud = hud->AddComponent<PlayerHud>(fpsFont, livesSubject->GetLives());
+		livesSubject->AddObserver(playerHud);
+		scoreSubject->AddObserver(playerHud);
+
+		playerHud->AddObserver(achievementObserver);
 	}
 
 	//Controller
@@ -127,7 +145,33 @@ int main(int, char*[]) {
 		data_location = "../Data/";
 #endif
 
+#ifdef USE_STEAMWORKS
+	if (not SteamAPI_Init())
+	{
+		OutputDebugString("Fatal Error - Steam must be running to play this game (SteamAPI_Init failed).\n");
+		return 1;
+	}
+	else
+	{
+		OutputDebugString("Successfully initialized Steam.");
+	}
+#endif
+
+	// Initialize Steam
+	bool bRet = SteamAPI_Init();
+	// Create the SteamAchievements object if Steam was successfully initialized
+	if (bRet)
+	{
+		g_SteamAchievements = new CSteamAchievements(g_Achievements, 4);
+	}
+
 	enf::Minigin engine(data_location);
 	engine.Run(load);
+
+	// Shutdown Steam
+	SteamAPI_Shutdown();
+	// Delete the SteamAchievements object
+	if (g_SteamAchievements)
+		delete g_SteamAchievements;
     return 0;
 }

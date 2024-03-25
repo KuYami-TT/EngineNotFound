@@ -10,7 +10,7 @@ namespace enf
 	{
 	public:
 		Controller(GameObject* possessed, InputMap* inputMap, int controllerIndex);
-		~Controller() = default;
+		~Controller();
 
 		Controller(Controller&& other) = delete;
 		Controller(const Controller& other) = delete;

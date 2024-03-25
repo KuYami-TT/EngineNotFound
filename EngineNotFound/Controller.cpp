@@ -10,6 +10,11 @@ enf::Controller::Controller(GameObject* possessed, InputMap* inputMap, int contr
 {
 }
 
+enf::Controller::~Controller()
+{
+	delete m_ControllerImplPtr;
+}
+
 void enf::Controller::HandleControllerInput()
 {
 	m_ControllerImplPtr->HandleControllerInput(this, m_ControllerIndex);
