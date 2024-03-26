@@ -403,3 +403,6 @@ build_web
 
 # Dear Imgui settings file
 imgui.ini
+
+# non-redistributable, you must provide your own
+external/steamworks
