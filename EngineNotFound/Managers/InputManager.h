@@ -12,23 +12,24 @@ namespace enf
 	class InputManager final : public Singleton<InputManager>
 	{
 	public:
-		InputManager();
-		~InputManager() override;
+		InputManager() = default;
+		~InputManager() override = default;
 
 		bool ProcessInput();
 		void AddController(GameObject* possessed, InputMap* inputMap);
 		InputMap* AddInputMap();
 
 	private:
-		class XInputImp;
-		std::unique_ptr<XInputImp> m_ControllerImplPtr;
+		//TODO: make it so, I don't need to forward declare the class
+		//TODO: fix the fact I can only use one pimpl here
+		//TODO: You're missing an abstraction -> a gamepad??
+
 
 		const int m_MaxControllers{ 4 };
 		std::vector<std::unique_ptr<Controller>> m_Controllers{};
 		std::vector<std::unique_ptr<InputMap>> m_InputMaps{};
-		
-		void HandleControllerEvent();
+
 		SDL_KeyCode EngineButtonToSDL_KeyCode(Action::KeyboardLayout button);
-		SDL_Scancode EngineButtonToSDL_scanecode(Action::KeyboardLayout button);
+		SDL_Scancode EngineButtonToSDL_Scanecode(Action::KeyboardLayout button);
 	};
 }

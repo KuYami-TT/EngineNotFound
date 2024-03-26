@@ -1,77 +1,56 @@
 cmake_minimum_required(VERSION 3.26)
-project(Minigin)
+project(EngineNotFound)
 
 if(EMSCRIPTEN)
   message("Using Emscripten!")
 endif()
 
 if(EMSCRIPTEN)
-  set(TARGET_NAME minigin_web)
+  set(TARGET_NAME EngineNotFound_web)
   set(TARGET_PARAM )
 else()
-  set(TARGET_NAME minigin)
+  set(TARGET_NAME EngineNotFound)
   set(TARGET_PARAM WIN32)
 endif()
 
 # list source files here
 add_executable(${TARGET_NAME} ${TARGET_PARAM}
-  Minigin/Main.cpp
-  Minigin/Minigin.cpp
-  Minigin/Minigin.h
-  Minigin/Renderer.cpp
-  Minigin/Renderer.h
-  Minigin/GameObject.cpp
-  Minigin/GameObject.h
-  Minigin/Scene.cpp
-  Minigin/Scene.h
-  Minigin/Font.cpp
-  Minigin/Font.h
-  Minigin/Texture2D.cpp
-  Minigin/Texture2D.h
-  Minigin/GUI.cpp
-  Minigin/GUI.h 
-  Minigin/Controller.cpp
-  Minigin/Controller.h
-  Minigin/InputMap.h
-  Minigin/Action.cpp
-  Minigin/Action.h
-  Minigin/XInputImp.cpp
+  EngineNotFound/Main.cpp
+  EngineNotFound/EngineNotFound.cpp
+  EngineNotFound/Renderer.cpp
+  EngineNotFound/GameObject.cpp
+  EngineNotFound/Scene.cpp
+  EngineNotFound/Font.cpp
+  EngineNotFound/Texture2D.cpp
+  EngineNotFound/GUI.cpp
+  EngineNotFound/Controller.cpp
+  EngineNotFound/Action.cpp
+  EngineNotFound/XInputImp.cpp
 
-  Minigin/Managers/GameTime.cpp
-  Minigin/Managers/GameTime.h
-  Minigin/Managers/SceneManager.cpp
-  Minigin/Managers/SceneManager.h
-  Minigin/Managers/ResourceManager.cpp
-  Minigin/Managers/ResourceManager.h
-  Minigin/Managers/InputManager.cpp
-  Minigin/Managers/InputManager.h
+  EngineNotFound/Managers/GameTime.cpp
+  EngineNotFound/Managers/SceneManager.cpp
+  EngineNotFound/Managers/ResourceManager.cpp
+  EngineNotFound/Managers/InputManager.cpp
 
-  Minigin/Components/Component.cpp
-  Minigin/Components/Component.h
-  Minigin/Components/RenderComp.cpp
-  Minigin/Components/RenderComp.h
-  Minigin/Components/SpriteRenderComp.cpp
-  Minigin/Components/SpriteRenderComp.h
-  Minigin/Components/TextRenderComp.cpp
-  Minigin/Components/TextRenderComp.h 
-  Minigin/Components/FPSComp.cpp
-  Minigin/Components/FPSComp.h 
-  Minigin/Components/OrbitComp.cpp
-  Minigin/Components/OrbitComp.h
-  Minigin/Components/MoveComp.cpp
-  Minigin/Components/MoveComp.h
+  EngineNotFound/Components/Component.cpp
+  EngineNotFound/Components/RenderComp.cpp
+  EngineNotFound/Components/SpriteRenderComp.cpp
+  EngineNotFound/Components/TextRenderComp.cpp
+  EngineNotFound/Components/FPSComp.cpp
+  EngineNotFound/Components/OrbitComp.cpp
+  EngineNotFound/Components/MoveComp.cpp
+  EngineNotFound/Components/PlayerHud.cpp
+  EngineNotFound/Components/LivesComp.cpp
+  EngineNotFound/Components/ScoreComp.cpp
+ 
+  EngineNotFound/Widgets/WidgetWindow.cpp
+  EngineNotFound/Widgets/Widget.cpp
+  EngineNotFound/Widgets/TrashTheCache.cpp
 
-  Minigin/Widgets/WidgetWindow.cpp
-  Minigin/Widgets/WidgetWindow.h
-  Minigin/Widgets/Widget.cpp
-  Minigin/Widgets/Widget.h
-  Minigin/Widgets/TrashTheCache.cpp
-  Minigin/Widgets/TrashTheCache.h
+  EngineNotFound/Commands/MoveCommand.cpp
+  EngineNotFound/Commands/ActionCommand.cpp
 
-  Minigin/Commands/Command.h
-  Minigin/Commands/GameObjectCommand.h
-  Minigin/Commands/MoveCommand.cpp
-  Minigin/Commands/MoveCommand.h
+  EngineNotFound/Observers/Subject.cpp
 )
 
 add_library(imgui OBJECT
@@ -261,7 +240,7 @@ elseif(NOT EMSCRIPTEN)
 endif()
 
 target_include_directories(${TARGET_NAME} PRIVATE
-  ${CMAKE_SOURCE_DIR}/Minigin/
+  ${CMAKE_SOURCE_DIR}/EngineNotFound/
   ${glm_SOURCE_DIR}
   External/imgui-docking
   External/implot

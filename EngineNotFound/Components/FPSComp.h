@@ -1,6 +1,5 @@
 #pragma once
 #include <deque>
-#include <memory>
 
 #include "Component.h"
 #include "Font.h"
